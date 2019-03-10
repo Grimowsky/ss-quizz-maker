@@ -236,31 +236,22 @@ img {
     bottom: 130px;
 }
 
-#navbar{
-    width: 1215px;
-    height: auto;
 
 
-}
-#test{
-    width:60%;
-    display: inline-block;
-    margin: 25px auto;
-}
-
-#test2{
+#cardSettings{
     width:30%;
     display: inline-block;
 
     margin: 25px auto;
 }
 
-.custom{
-    width: 80px;
+#mainSettings{
+    margin: 25px auto;
 }
 
+
 .btn {
-     width: 115px !important;
+     width: 60px !important;
 }
 
 #board{
@@ -313,5 +304,31 @@ img {
     display: flex;
     justify-content: center;
     padding-right: 10px;
+}
 
+input{
+   width:90px !important;
+}
+
+.stackInput{
+   width: 65px !important;
+}
+
+.form-inline {
+    margin: 5px;
+}
+
+.input-group-text{
+    width: 60px !important;
+}
+
+
+
+#navBar{
+    margin: 10px auto;
+    display: inline-block;
+}
+#flopSettings{
+    display: inline-block;
+    float: left;
 }
