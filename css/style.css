@@ -322,13 +322,17 @@ input{
     width: 60px !important;
 }
 
+.spacing{
+    margin-left: 35px;
+}
 
 
 #navBar{
-    margin: 10px auto;
+    margin: 10px 0 0 25px;
     display: inline-block;
+    width: 1200px;
 }
-#flopSettings{
+#flopSettings, #playerSettings, #speedSettings{
     display: inline-block;
     float: left;
 }
