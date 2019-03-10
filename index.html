@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Quizzes</title>
+      <link rel="stylesheet" href="css/style.css?v=1.0">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   </head>
+   <body>
+      <div id='main'>
+
+          <div id='mainPot'> <p id='pot'> Pot: </p> <p id='totalStack'>  </p></div>
+          <!-- <div id='preBetPot'> <p id='potPre' contenteditable="true"></p></div> -->
+
+         <div id='villainBet1'><img id='chip1' src='assets/chips/chipone.png'> <p id='villain1BetSize'>  </p></div>
+         <div id='villainBet2'><img id='chip2' src='assets/chips/chipone.png'> <p id='villain2BetSize'>  </p></div>
+         <div id='heroBet'> <img id='chip3' src='assets/chips/chipone.png'> <p id='heroBetSize'>  </p></div>
+
+         <div id='topSeatContainer'>
+            <div id='leftSeat'>
+               <div id='leftVillainCards'>
+                  <img id='backCard1' src='assets/card-backface-3.png'>
+                  <img id='backCard2' src='assets/card-backface-3.png'>
+               </div>
+               <img src='assets/seat.png'>
+                <p id='leftSeatName' contenteditable="true" spellcheck="false">Player1</p>
+               <p id='leftSeatStack'></p>
+            </div>
+            <div id='rightSeat'>
+               <div id='rightVillainCards'>
+                  <img id='backCard1' src='assets/card-backface-3.png'>
+                  <img id='backCard2' src='assets/card-backface-3.png'>
+               </div>
+               <img src='assets/seat.png'>
+               <p id='rightSeatName' contenteditable="true" spellcheck="false">Player2</p>
+               <p id='rightSeatStack'></p>
+            </div>
+         </div>
+
+             <div id='board'>
+                <img id='flop_1' src='assets/card-backface-3.png'>
+                <img id='flop_2' src='assets/card-backface-3.png'>
+                <img id='flop_3' src='assets/card-backface-3.png'>
+
+         </div>
+                <img id='buttonImage' src='assets/chips/chip-d.png'>
+                <p id='smallBlindContainer'src='assets/chips/chipone.png' onfocusout='setBlinds()'></p>
+                <p id='bigBlindContainer'  onfocusout='setBlinds()'>  </p>
+         <div id='bottomSeatContainer'>
+            <div id='bottomSeat'>
+               <div id='heroCards'>
+                  <img id='backCard1_hero' src='assets/card-backface-3.png'>
+                  <img id='backCard2_hero' src='assets/card-backface-3.png'>
+               </div>
+               <img src='assets/seat.png'>
+               <p id='bottomSeatName' spellcheck="false">Hero</p>
+               <p id='bottomSeatStack'></p>
+            </div>
+         </div>
+      </div>
+      <div id='navbar' class='form-group row'>
+         <div id='test'>
+            <div class="input-group mb-3">
+               <input type="text" class="form-control" placeholder="Villain Stack" aria-label="Villain Stack" aria-describedby="basic-addon2" id='stack1' onfocusout='insertValues(handInfo)'>
+               <div class="input-group-append">
+                   <div class="input-group-text">
+                        <input type="radio" id='button1' name='check'>
+                   </div>
+                  <button class="btn btn-outline-secondary custom" type="button" onclick="hidePlayer()">Hide</button>
+
+                  <input type="text" class="form-control" placeholder="Villain Bet" aria-label="Villain Bet" aria-describedby="basic-addon2" id='bet1'>
+                  <!-- <button class="btn btn-outline-secondary custom" type="button" onclick="villainBet1()">Set</button> -->
+               </div>
+
+            </div>
+            <div class="input-group mb-3">
+               <input type="text" class="form-control" placeholder="Villain Stack" aria-label="Villain Stack" aria-describedby="basic-addon2" id='stack2' onfocusout='insertValues()'>
+               <div class="input-group-append">
+                   <div class="input-group-text">
+                    <input type="radio" id='button2' name='check'>
+                   </div>
+                  <button class="btn btn-outline-secondary custom" type="button" onclick="hidePlayer2()">Hide</button>
+
+                  <input type="text" class="form-control" placeholder="Villain Bet" aria-label="Villain Bet" aria-describedby="basic-addon2" id='bet2'>
+                  <!-- <button class="btn btn-outline-secondary custom" type="button" onclick="villainBet2()">Set</button> -->
+
+               </div>
+            </div>
+            <div class="input-group mb-3">
+               <input type="text" class="form-control" placeholder="Hero Stack" aria-label="Hero Stack" aria-describedby="basic-addon2" id='stack3' onfocusout='insertValues()'>
+               <div class="input-group-append">
+                   <div class="input-group-text">
+                     <input type="radio" id='button3' name='check'>
+                   </div>
+                  <button class="btn btn-outline-secondary custom" type="button" onclick="insertValues()">Set</button>
+
+                  <input type="text" class="form-control" placeholder="Hero Bet" aria-label="Hero Stack" aria-describedby="basic-addon2" id='bet3' >
+                  <!-- <button class="btn btn-outline-secondary custom" type="button" onclick="heroBet()">Set</button> -->
+               </div>
+            </div>
+
+            <div class="input-group mb-3" id='actionSettings'>
+               <input type="text" class="form-control" placeholder="Action Delay in seconds" aria-label="Hero Stack" aria-describedby="basic-addon2" id='actionDelay' value='1'>
+               <div class="input-group-append">
+                   <button class="btn btn-outline-secondary custom" type="button" onclick="actionGenerator()">Generate</button>
+                   <button class="btn btn-outline-secondary custom" type="button" onclick="insertHHs()">HHs</button>
+               </div>
+
+            </div>
+            <div id='hhs'>
+            <div id='hhsOutput'>
+
+            </div>
+            </div>
+
+
+         </div>
+
+         <div id='test2'>
+            <div class="input-group mb-3">
+
+               <input type="text" class="form-control" placeholder="Hero Cards" aria-label="Recipient's username" aria-describedby="basic-addon2" id='heroCard' onfocusout='setHero()'>
+               <input type="text" class="form-control" placeholder="Small Blind" aria-label="Recipient's username" aria-describedby="basic-addon2" id='smallBlind'>
+               <input type="text" class="form-control" placeholder="Big Blind" aria-label="Recipient's username" aria-describedby="basic-addon2" id='bigBlind'>
+            </div>
+
+            <div class="input-group mb-3">
+               <input type="text" class="form-control" placeholder="Flop" aria-label="Recipient's username" aria-describedby="basic-addon2" id='flopInput' onfocusout='setFlop()'>
+               <input type="text" class="form-control" placeholder="Turn" aria-label="Recipient's username" aria-describedby="basic-addon2" id='flop_4_input' onfocusout="setTurn()">
+
+               <input type="text" class="form-control" placeholder="River" aria-label="Recipient's username" aria-describedby="basic-addon2" id='flop_5_input' onfocusout="setRiver()">
+            </div>
+            <div class="input-group mb-3">
+
+
+            </div>
+
+
+         </div>
+
+
+      </div>
+
+      </div>
+
+
+
+      <script src="js/script.js"></script>
+   </body>
+</html>

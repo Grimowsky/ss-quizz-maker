@@ -1,0 +1,317 @@
+#body{
+
+}
+
+#header {
+    width: 1200px;
+    height: 150px;
+    background: grey;
+
+}
+
+#main{
+    width: 1200px;
+    height: 900px;
+    background-image: url('../assets/table-gfx-dark.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+
+#mainPot{
+    color: white;
+    position: absolute;
+    top: 275px;
+    left: 550px;
+    text-align: center;
+    background-color:rgba(0, 0, 0, 0.35);
+    width: 110px;
+    height: 30px;
+    vertical-align: middle;
+    line-height: 30px;
+    border-radius: 15px;
+
+}
+
+#preBetPot{
+    color: white;
+    position: absolute;
+    top: 450px;
+    left: 575px;
+    text-align: center;
+    background-color:rgba(0, 0, 0, 0.35);
+    width: 70px;
+    height: 30px;
+    vertical-align: middle;
+    line-height: 30px;
+    border-radius: 15px;
+}
+
+#totalStack, #pot {
+    display:inline-block;
+    font-weight: bold;
+}
+
+#villainBet1, #smallBlindContainer, #bigBlindContainer{
+    color: white;
+    position: absolute;
+    top: 265px;
+    left: 375px;
+}
+
+#villain1BetSize, #villain2BetSize, #heroBetSize{
+    display:inline-block;
+    font-weight: bold;
+}
+
+
+#villainBet2, #smallBlindContainer, #bigBlindContainer{
+    color: white;
+    position: absolute;
+    top: 265px;
+    left: 775px;
+}
+
+#heroBet, #smallBlindContainer, #bigBlindContainer{
+    color: white;
+    position: absolute;
+    top: 500px;
+    left: 625px;
+    display: inline-block;
+    float: left;
+}
+
+#sb, #bb{
+    width: auto;
+    height: auto;
+}
+
+#villainBet1, #villainBet2, #heroBet{
+    visibility: hidden;
+}
+
+
+
+#topSeatContainer{
+    width: 1200px;
+    height: 150px;
+    position:absolute;
+    top:125px;
+}
+
+#bottomSeatContainer{
+    width: 1200px;
+    height: 250px;
+    position:absolute;
+    top:625px;
+    text-align: center;
+}
+
+#leftSeat{
+    width: 45%;
+    height: 150px;
+    float: left;
+    align-content: center;
+    text-align: right;
+
+
+}
+#rightSeat{
+    width: 45%;
+    height: 150px;
+    float: right;
+}
+
+#leftSeatStack{
+    position: absolute;
+    bottom: 55px;
+    left: 360px;
+    color: white;
+    width: 100px;
+    text-align: center;
+    text-align: center;
+
+}
+
+#leftSeatName{
+    position: absolute;
+    bottom: 80px;
+    left: 315px;
+    color: white;
+    width: 190px;
+    text-align: center;
+
+
+}
+
+#rightSeatStack{
+    position: absolute;
+    bottom: 55px;
+    left: 740px;
+    color: white;
+    width: 100px;
+    text-align: center;
+
+}
+
+#rightSeatName{
+    position: absolute;
+    bottom: 80px;
+    left: 700px;
+    color: white;
+    width: 185px;
+    text-align: center;
+}
+
+#leftSeatName, #rightSeatName {
+    border-bottom:   1.5px solid rgba(255,255,255, 0.2);
+}
+
+#bottomSeatStack{
+    position: absolute;
+    bottom: 155px;
+    left: 550px;
+    color: white;
+    width: 100px;
+    text-align: center;
+
+}
+
+#bottomSeatName{
+    position: absolute;
+    bottom: 180px;
+    left: 505px;
+    color: white;
+    width: 185px;
+    border-bottom:   1px solid rgba(255,255,255, 0.3);
+    text-align: center;
+}
+
+
+img {
+    width: 260px;
+    height: 110px;
+}
+
+#buttonImage{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 225px;
+    left: 425px;
+    visibility: hidden;
+}
+
+#chip1, #chip2, #chip3{
+    width: 25px;
+    height: 25px;
+}
+
+#backCard1, #backCard2{
+    width: 75px;
+    height: 100px;
+}
+
+#backCard1_hero, #backCard2_hero{
+    width: 75px;
+    height: 100px;
+}
+
+#heroCards{
+    position: absolute;
+    bottom: 230px;
+    left: 525px;
+}
+
+
+#leftVillainCards{
+    position: absolute;
+    left: 335px;
+    bottom: 130px;
+}
+
+#rightVillainCards{
+    position: absolute;
+    left: 715px;
+    bottom: 130px;
+}
+
+#navbar{
+    width: 1215px;
+    height: auto;
+
+
+}
+#test{
+    width:60%;
+    display: inline-block;
+    margin: 25px auto;
+}
+
+#test2{
+    width:30%;
+    display: inline-block;
+
+    margin: 25px auto;
+}
+
+.custom{
+    width: 80px;
+}
+
+.btn {
+     width: 115px !important;
+}
+
+#board{
+    position: absolute;
+    left: 410px;
+    top: 320px;
+    width: 375px;
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+}
+#board img {
+    width: 75px;
+    height: 100px;
+}
+
+#actionSettings{
+ width: 350px;
+}
+
+#actionDelay{
+    text-align: center;
+}
+
+#hhsOutput{
+    margin: 25px auto;
+    width: auto;
+    border: 1px solid;
+    font-size: 10px;
+}
+
+/* #boardContainer{
+    border: 10px solid;
+    position: absolute;
+    width: 400px;
+    height: 100px;
+    background: red;
+    left: 410px;
+    top: 320px;
+
+} */
+
+#smallBlindContainer, #bigBlindContainer{
+    width: 50px;
+    height: 25px;
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    padding-right: 10px;
+
+}

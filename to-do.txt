@@ -1,0 +1,10 @@
+add content clear after playing hand
+
+add to handInfo object info about bets and betsizes
+
+add posibility of bulk play hh
+
+
+consider default options for button and blinds
+add multiple bets options - then blind clearing on the flop:
+ -need to remove onFocusout options in flop turn river ?
