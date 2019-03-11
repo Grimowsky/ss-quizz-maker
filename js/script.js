@@ -221,65 +221,6 @@ function parseSeat() {
 
 }
 
-function actionGenerator(buttonPosition) {
-    var delay = parseInt(document.getElementById("actionDelay").value) * 1000
-
-    if (this.buttonPosition == 1) {
-        setTimeout(function() {
-            villainBet1()
-        }, delay);
-        setTimeout(function() {
-            document.getElementById("smallBlindContainer").style.visibility = 'hidden'
-        }, delay * 1.85);
-        setTimeout(function() {
-            villainBet2()
-        }, delay * 2);
-        setTimeout(function() {
-            document.getElementById("bigBlindContainer").style.visibility = 'hidden'
-        }, delay * 2.85);
-        setTimeout(function() {
-            heroBet()
-        }, delay * 3);
-
-    }
-    if (this.buttonPosition == 2) {
-        setTimeout(function() {
-            villainBet2()
-        }, delay);
-        setTimeout(function() {
-            document.getElementById("smallBlindContainer").style.visibility = 'hidden'
-        }, delay * 1.85);
-        setTimeout(function() {
-            heroBet()
-        }, delay * 2);
-        setTimeout(function() {
-            document.getElementById("bigBlindContainer").style.visibility = 'hidden'
-        }, delay * 2.85);
-        setTimeout(function() {
-            villainBet1()
-        }, delay * 3);
-    }
-    if (this.buttonPosition == 3) {
-        setTimeout(function() {
-            heroBet()
-        }, delay);
-        setTimeout(function() {
-            document.getElementById("smallBlindContainer").style.visibility = 'hidden'
-        }, delay * 1.85);
-        setTimeout(function() {
-            villainBet1()
-        }, delay * 2);
-        setTimeout(function() {
-            document.getElementById("bigBlindContainer").style.visibility = 'hidden'
-        }, delay * 2.85);
-        setTimeout(function() {
-            villainBet2()
-        }, delay * 3);
-    }
-    setTimeout(function() {
-        clearContent()
-    }, delay * 4)
-}
 function blindsPotsize() {
     var sb = Number(document.getElementById("smallBlindContainer").innerHTML.split('<img')[0], 10)
     var bb = Number(document.getElementById("bigBlindContainer").innerHTML.split('<img')[0], 10)
@@ -290,7 +231,7 @@ function potSizeTotal(bet) {
     document.getElementById("totalStack").innerHTML = pot + parseInt(bet)
 }
 
-function clearContent() {
+function clearBets() {
     var toClear = document.querySelectorAll('#chip1, #chip2, #chip3')
     toClear.forEach(element => {
         element.style.visibility = 'hidden'
@@ -299,11 +240,11 @@ function clearContent() {
     betClear.forEach(bet => {
         bet.innerHTML = ''
     })
-    document.getElementById("totalStack").innerHTML = 0
+
 }
 
 function villainBet1(bet) {
-    // var villainBet = document.getElementById("bet1").value;
+
     var villainBet = bet
     var stack = document.getElementById("leftSeatStack").innerHTML;
     var pot = document.getElementById("leftSeatStack").innerHTML;
@@ -341,109 +282,326 @@ function heroBet(bet) {
     }
 }
 
-function doSetTimeout(i) {
-    setTimeout(function() {}, 8000);
-}
 function delayAction(action, func, delay) {
     setTimeout(function() {
         func(action)
     }, delay)
 }
 
-var len = 6
+function delayFold(player, func, delay) {
+    setTimeout(function() {
+        func(player)
+    }, delay)
+}
 
-// function preflopBets() {
-//
-//     var a = document.getElementById('player1Preflop').value.split(';')
-//     var b = document.getElementById('player2Preflop').value.split(';')
-//     var c = document.getElementById('player3Preflop').value.split(';')
-//     var folded = [false, false, false]
-//     var del = 2000;
-//     setTimeout(function() {
-//         for (var i = 0; i < 3; i++) {
-//             if (a[i] == '-') {
-//                 folded[0] = true
-//             }
-//             if (i < a.length && !folded[0]) {
-//                 delayAction(a[i], villainBet1, del)
-//             }
-//
-//             if (b[i] == '-') {
-//                 folded[1] = true;
-//             }
-//             if (i < b.length && !folded[1]) {
-//                 delayAction(b[i], villainBet2, del + 2000)
-//             }
-//
-//             if (c[i] == '-') {
-//                 folded[2] = true;
-//             }
-//             if (i < c.length && !folded[2]) {
-//                 delayAction(c[i], heroBet, del + 4000)
-//             }
-//
-//         }
-//         len--
-//         if (len > 0)
-//             preflopBets()
-//         console.log(len)
-//
-//     }, i * 4000)
-//
-// }
+function clearFoldedCars(player) {
+    document.getElementById(player).style.visibility = 'hidden'
+}
+
+function actionSeq() {
+    var actionSequence = [villainBet1, villainBet2, heroBet]
+    if (this.buttonPosition == 2) {
+        actionSequence = [villainBet2, heroBet, villainBet1]
+    } else if (this.buttonPosition == 3) {
+        actionSequence = [heroBet, villainBet1, villainBet2]
+    }
+
+    return actionSequence
+}
+
+var del = 2000;
 
 function preflopBets() {
+    var actionSequence = actionSeq()
 
-    var a = document.getElementById('player1Preflop').value.split(';')
-    var b = document.getElementById('player2Preflop').value.split(';')
-    var c = document.getElementById('player3Preflop').value.split(';')
+    if (this.buttonPosition == 1) {
+        var a = document.getElementById('player1Preflop').value.split(';')
+        var b = document.getElementById('player2Preflop').value.split(';')
+        var c = document.getElementById('player3Preflop').value.split(';')
+        var objId = {
+            a: 'leftVillainCards',
+            b: 'rightVillainCards',
+            c: 'heroCards'
+        }
+    } else if (this.buttonPosition == 2) {
+        var a = document.getElementById('player2Preflop').value.split(';')
+        var b = document.getElementById('player3Preflop').value.split(';')
+        var c = document.getElementById('player1Preflop').value.split(';')
+        var objId = {
+            a: 'rightVillainCards',
+            b: 'heroCards',
+            c: 'leftVillainCards'
+        }
+    } else if (this.buttonPosition == 3) {
+        var a = document.getElementById('player3Preflop').value.split(';')
+        var b = document.getElementById('player1Preflop').value.split(';')
+        var c = document.getElementById('player2Preflop').value.split(';')
+        var objId = {
+            a: 'heroCards',
+            b: 'leftVillainCards',
+            c: 'rightVillainCards'
+        }
+    }
+
     var folded = [false, false, false]
-    var del = 2000;
-    for (var i = 0; i < 3; i++) {
+    var max = Math.max(a.length, b.length, c.length)
+
+    for (var i = 0; i < max; i++) {
 
         if (a[i] == '-') {
             folded[0] = true
+            delayFold(objId.a, clearFoldedCars, del)
         }
         if (i < a.length && !folded[0]) {
-            delayAction(a[i], villainBet1, del)
-
+            delayAction(a[i], actionSequence[0], del)
         }
         del += 2000
         if (b[i] == '-') {
             folded[1] = true;
+            delayFold(objId.b, clearFoldedCars, del)
+
         }
         if (i < b.length && !folded[1]) {
-            delayAction(b[i], villainBet2, del)
+            delayAction(b[i], actionSequence[1], del)
         }
         del += 2000
         if (c[i] == '-') {
             folded[2] = true;
+            delayFold(objId.c, clearFoldedCars, del)
+
         }
         if (i < c.length && !folded[2]) {
-            delayAction(c[i], heroBet, del)
+            delayAction(c[i], actionSequence[2], del)
         }
         del += 2000
+
     }
+    setTimeout(function() {
+        clearBets()
+        setFlop()
+    }, del)
 
 }
 
-function delay_loop(items) {
-
-    var data = items.shift(),
-        // delay between each loop
-        delay = 2000;
-
-    // start a delay
-    setTimeout(function() {
-
-        // process array data
-        for (var i = 0, l = data.length; i < l; i++) {
-            console.log(data[i]);
+function flopBets() {
+    var actionSequence = actionSeq()
+    del += 2000
+    if (this.buttonPosition == 1) {
+        var a = document.getElementById('player1Flop').value.split(';')
+        var b = document.getElementById('player2Flop').value.split(';')
+        var c = document.getElementById('player3Flop').value.split(';')
+        var objId = {
+            a: 'leftVillainCards',
+            b: 'rightVillainCards',
+            c: 'heroCards'
         }
+    } else if (this.buttonPosition == 2) {
+        var a = document.getElementById('player2Flop').value.split(';')
+        var b = document.getElementById('player3Flop').value.split(';')
+        var c = document.getElementById('player1Flop').value.split(';')
+        var objId = {
+            a: 'rightVillainCards',
+            b: 'heroCards',
+            c: 'leftVillainCards'
+        }
+    } else if (this.buttonPosition == 3) {
+        var a = document.getElementById('player3Flop').value.split(';')
+        var b = document.getElementById('player1Flop').value.split(';')
+        var c = document.getElementById('player2Flop').value.split(';')
+        var objId = {
+            a: 'heroCards',
+            b: 'leftVillainCards',
+            c: 'rightVillainCards'
+        }
+    }
 
-        // recursive call
+    var folded = [false, false, false]
 
-    }, delay);
+    var max = Math.max(a.length, b.length, c.length)
+
+    for (var i = 0; i < max; i++) {
+
+        if (a[i] == '-') {
+            folded[0] = true
+            delayFold(objId.a, clearFoldedCars, del)
+        }
+        if (i < a.length && !folded[0]) {
+            delayAction(a[i], actionSequence[0], del)
+        }
+        del += 2000
+        if (b[i] == '-') {
+            folded[1] = true;
+            delayFold(objId.b, clearFoldedCars, del)
+
+        }
+        if (i < b.length && !folded[1]) {
+            delayAction(b[i], actionSequence[1], del)
+        }
+        del += 2000
+        if (c[i] == '-') {
+            folded[2] = true;
+            delayFold(objId.c, clearFoldedCars, del)
+
+        }
+        if (i < c.length && !folded[2]) {
+            delayAction(c[i], actionSequence[2], del)
+        }
+        del += 2000
+
+    }
+    setTimeout(function() {
+        clearBets()
+        setTurn()
+    }, del)
+
+}
+
+function turnBets() {
+    var actionSequence = actionSeq()
+    del += 2000
+    if (this.buttonPosition == 1) {
+        var a = document.getElementById('player1Turn').value.split(';')
+        var b = document.getElementById('player2Turn').value.split(';')
+        var c = document.getElementById('player3Turn').value.split(';')
+        var objId = {
+            a: 'leftVillainCards',
+            b: 'rightVillainCards',
+            c: 'heroCards'
+        }
+    } else if (this.buttonPosition == 2) {
+        var a = document.getElementById('player2Turn').value.split(';')
+        var b = document.getElementById('player3Turn').value.split(';')
+        var c = document.getElementById('player1Turn').value.split(';')
+        var objId = {
+            a: 'rightVillainCards',
+            b: 'heroCards',
+            c: 'leftVillainCards'
+        }
+    } else if (this.buttonPosition == 3) {
+        var a = document.getElementById('player3Turn').value.split(';')
+        var b = document.getElementById('player1Turn').value.split(';')
+        var c = document.getElementById('player2Turn').value.split(';')
+        var objId = {
+            a: 'heroCards',
+            b: 'leftVillainCards',
+            c: 'rightVillainCards'
+        }
+    }
+
+    var folded = [false, false, false]
+    var max = Math.max(a.length, b.length, c.length)
+
+    for (var i = 0; i < max; i++) {
+
+        if (a[i] == '-') {
+            folded[0] = true
+            delayFold(objId.a, clearFoldedCars, del)
+        }
+        if (i < a.length && !folded[0]) {
+            delayAction(a[i], actionSequence[0], del)
+        }
+        del += 2000
+        if (b[i] == '-') {
+            folded[1] = true;
+            delayFold(objId.b, clearFoldedCars, del)
+
+        }
+        if (i < b.length && !folded[1]) {
+            delayAction(b[i], actionSequence[1], del)
+        }
+        del += 2000
+        if (c[i] == '-') {
+            folded[2] = true;
+            delayFold(objId.c, clearFoldedCars, del)
+
+        }
+        if (i < c.length && !folded[2]) {
+            delayAction(c[i], actionSequence[2], del)
+        }
+        del += 2000
+
+    }
+    setTimeout(function() {
+        clearBets()
+        setRiver()
+    }, del)
+}
+
+function riverBets() {
+    var actionSequence = actionSeq()
+    del += 2000
+    if (this.buttonPosition == 1) {
+        var a = document.getElementById('player1River').value.split(';')
+        var b = document.getElementById('player2River').value.split(';')
+        var c = document.getElementById('player3River').value.split(';')
+        var objId = {
+            a: 'leftVillainCards',
+            b: 'rightVillainCards',
+            c: 'heroCards'
+        }
+    } else if (this.buttonPosition == 2) {
+        var a = document.getElementById('player2River').value.split(';')
+        var b = document.getElementById('player3River').value.split(';')
+        var c = document.getElementById('player1River').value.split(';')
+        var objId = {
+            a: 'rightVillainCards',
+            b: 'heroCards',
+            c: 'leftVillainCards'
+        }
+    } else if (this.buttonPosition == 3) {
+        var a = document.getElementById('player3River').value.split(';')
+        var b = document.getElementById('player1River').value.split(';')
+        var c = document.getElementById('player2River').value.split(';')
+        var objId = {
+            a: 'heroCards',
+            b: 'leftVillainCards',
+            c: 'rightVillainCards'
+        }
+    }
+
+    var folded = [false, false, false]
+    var max = Math.max(a.length, b.length, c.length)
+
+    for (var i = 0; i < max; i++) {
+
+        if (a[i] == '-') {
+            folded[0] = true
+            delayFold(objId.a, clearFoldedCars, del)
+        }
+        if (i < a.length && !folded[0]) {
+            delayAction(a[i], actionSequence[0], del)
+        }
+        del += 2000
+        if (b[i] == '-') {
+            folded[1] = true;
+            delayFold(objId.b, clearFoldedCars, del)
+
+        }
+        if (i < b.length && !folded[1]) {
+            delayAction(b[i], actionSequence[1], del)
+        }
+        del += 2000
+        if (c[i] == '-') {
+            folded[2] = true;
+            delayFold(objId.c, clearFoldedCars, del)
+
+        }
+        if (i < c.length && !folded[2]) {
+            delayAction(c[i], actionSequence[2], del)
+        }
+        del += 2000
+
+    }
+    setTimeout(function() {
+        clearBets()
+    }, del)
+}
+
+function generate() {
+    preflopBets()
+    flopBets()
+    turnBets()
+    riverBets()
 }
 
 let hhTemplate = `PokerStars Hand #196297268516: Tournament #2521792044, $28.20+$1.80 USD Hold'em No Limit - Level I ([INPUT_BLINDS]) - 2019/01/27 14:01:37 ET <br>

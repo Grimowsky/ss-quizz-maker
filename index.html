@@ -77,9 +77,9 @@
                         <button class="btn btn-outline-secondary " type="button" onclick="hidePlayer()">Hide</button>
                         <input id='stack1' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
                         <input id='player1Preflop' type="text" class="form-control" placeholder="Pre Flop">
-                        <input type="text" class="form-control" placeholder="Flop">
-                        <input type="text" class="form-control" placeholder="Turn">
-                        <input type="text" class="form-control" placeholder="River">
+                        <input id='player1Flop' type="text" class="form-control" placeholder="Flop">
+                        <input id='player1Turn' type="text" class="form-control" placeholder="Turn">
+                        <input id='player1River' type="text" class="form-control" placeholder="River">
                     </div>
                 </div>
             </form>
@@ -93,9 +93,9 @@
                         <button class="btn btn-outline-secondary " type="button" onclick="hidePlayer2()">Hide</button>
                         <input id='stack2' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
                         <input id='player2Preflop' type="text" class="form-control" placeholder="Pre Flop">
-                        <input type="text" class="form-control" placeholder="Flop">
-                        <input type="text" class="form-control" placeholder="Turn">
-                        <input type="text" class="form-control" placeholder="River">
+                        <input id='player2Flop' type="text" class="form-control" placeholder="Flop">
+                        <input id='player2Turn' type="text" class="form-control" placeholder="Turn">
+                        <input id='player2River' type="text" class="form-control" placeholder="River">
                     </div>
                 </div>
             </form>
@@ -109,9 +109,9 @@
                         <button class="btn btn-outline-secondary " type="button" disabled></button>
                         <input id='stack3' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
                         <input id='player3Preflop' type="text" class="form-control" placeholder="Pre Flop">
-                        <input type="text" class="form-control" placeholder="Flop">
-                        <input type="text" class="form-control" placeholder="Turn">
-                        <input type="text" class="form-control" placeholder="River">
+                        <input id='player3Flop' type="text" class="form-control" placeholder="Flop">
+                        <input id='player3Turn' type="text" class="form-control" placeholder="Turn">
+                        <input id='player3River' type="text" class="form-control" placeholder="River">
                     </div>
                 </div>
             </form>
@@ -129,16 +129,16 @@
             <form class="form-inline">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Flop">
-                        <input type="text" class="form-control" placeholder="Turn">
-                        <input type="text" class="form-control" placeholder="River">
+                        <input id='flopInput' type="text" class="form-control" placeholder="Flop">
+                        <input id='flop_4_input' type="text" class="form-control" placeholder="Turn">
+                        <input id='flop_5_input' type="text" class="form-control" placeholder="River">
                     </div>
                 </div>
             </form>
             <form class="form-inline">
                 <div class="form-group">
                     <div class="input-group">
-                        <button class="btn btn-outline-secondary " type="button" onclick="preflopBets()"> Play </button>
+                        <button class="btn btn-outline-secondary " type="button" onclick="generate()"> Play </button>
                         <input type="text" class="form-control" placeholder="" readonly>
                         <input type="text" class="form-control" placeholder="" readonly>
                     </div>
