@@ -7,7 +7,7 @@ var handInfo = {
         betsize: 0,
         actionFlop: '',
         actionTurn: '',
-        actionRiver: '',
+        actionRiver: ''
     },
     player2: {
         nickname: 'Player2',
@@ -15,7 +15,7 @@ var handInfo = {
         betsize: 0,
         actionFlop: '',
         actionTurn: '',
-        actionRiver: '',
+        actionRiver: ''
     },
     hero: {
         cards: '',
@@ -23,17 +23,17 @@ var handInfo = {
         betsize: 0,
         actionFlop: '',
         actionTurn: '',
-        actionRiver: '',
+        actionRiver: ''
     },
     board: {
         flop: '',
         turn: '',
-        river: '',
+        river: ''
     },
     blinds: {
         smallBlind: '',
-        bigBlind: '',
-    },
+        bigBlind: ''
+    }
 }
 
 function insertValues() {
@@ -135,7 +135,12 @@ function setRiver() {
 var cbs = document.querySelectorAll('[name="check"]');
 [].forEach.call(cbs, function(cb) {
     cb.addEventListener("click", function(cb) {
-        showButton(cb.target.checked, this.id);
+        for (var i = 0; i < cbs.length; i++) {
+            if (cbs[i] != cb.target) {
+                cbs[i].checked = false
+            }
+        }
+        showButton(cb.target.checked, this.id)
     });
 });
 
@@ -197,45 +202,6 @@ function showButton(checked, id, buttonPosition) {
 
     }
 
-}
-
-function villainBet1() {
-    var villainBet = document.getElementById("bet1").value;
-    var stack = document.getElementById("leftSeatStack").innerHTML;
-    var pot = document.getElementById("leftSeatStack").innerHTML;
-    if (villainBet) {
-
-        document.getElementById("villainBet1").style.visibility = 'visible'
-        document.getElementById("chip1").style.visibility = 'visible'
-        document.getElementById("villain1BetSize").innerHTML = villainBet;
-        document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet);
-    }
-    potSizeTotal(villainBet)
-}
-
-function villainBet2() {
-    var villainBet = document.getElementById("bet2").value;
-    var stack = document.getElementById("rightSeatStack").innerHTML;
-    if (villainBet) {
-
-        document.getElementById("villainBet2").style.visibility = 'visible'
-        document.getElementById("chip2").style.visibility = 'visible'
-        document.getElementById("villain2BetSize").innerHTML = villainBet;
-        document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet);
-        potSizeTotal(villainBet)
-    }
-}
-
-function heroBet() {
-    var heroBet = document.getElementById("bet3").value;
-    var stack = document.getElementById("bottomSeatStack").innerHTML;
-    if (heroBet) {
-        document.getElementById("chip3").style.visibility = 'visible'
-        document.getElementById("heroBet").style.visibility = 'visible'
-        document.getElementById("heroBetSize").innerHTML = heroBet;
-        document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet);
-        potSizeTotal(heroBet)
-    }
 }
 
 var leftSeat = document.getElementById('leftSeatName')
@@ -334,6 +300,150 @@ function clearContent() {
         bet.innerHTML = ''
     })
     document.getElementById("totalStack").innerHTML = 0
+}
+
+function villainBet1(bet) {
+    // var villainBet = document.getElementById("bet1").value;
+    var villainBet = bet
+    var stack = document.getElementById("leftSeatStack").innerHTML;
+    var pot = document.getElementById("leftSeatStack").innerHTML;
+    if (villainBet) {
+        document.getElementById("villainBet1").style.visibility = 'visible'
+        document.getElementById("chip1").style.visibility = 'visible'
+        document.getElementById("villain1BetSize").innerHTML = villainBet;
+        document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet);
+    }
+    potSizeTotal(villainBet)
+}
+
+function villainBet2(bet) {
+    var villainBet = bet
+    var stack = document.getElementById("rightSeatStack").innerHTML;
+    if (villainBet) {
+
+        document.getElementById("villainBet2").style.visibility = 'visible'
+        document.getElementById("chip2").style.visibility = 'visible'
+        document.getElementById("villain2BetSize").innerHTML = villainBet;
+        document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet);
+        potSizeTotal(villainBet)
+    }
+}
+
+function heroBet(bet) {
+    var heroBet = bet
+    var stack = document.getElementById("bottomSeatStack").innerHTML;
+    if (heroBet) {
+        document.getElementById("chip3").style.visibility = 'visible'
+        document.getElementById("heroBet").style.visibility = 'visible'
+        document.getElementById("heroBetSize").innerHTML = heroBet;
+        document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet);
+        potSizeTotal(heroBet)
+    }
+}
+
+function doSetTimeout(i) {
+    setTimeout(function() {}, 8000);
+}
+function delayAction(action, func, delay) {
+    setTimeout(function() {
+        func(action)
+    }, delay)
+}
+
+var len = 6
+
+// function preflopBets() {
+//
+//     var a = document.getElementById('player1Preflop').value.split(';')
+//     var b = document.getElementById('player2Preflop').value.split(';')
+//     var c = document.getElementById('player3Preflop').value.split(';')
+//     var folded = [false, false, false]
+//     var del = 2000;
+//     setTimeout(function() {
+//         for (var i = 0; i < 3; i++) {
+//             if (a[i] == '-') {
+//                 folded[0] = true
+//             }
+//             if (i < a.length && !folded[0]) {
+//                 delayAction(a[i], villainBet1, del)
+//             }
+//
+//             if (b[i] == '-') {
+//                 folded[1] = true;
+//             }
+//             if (i < b.length && !folded[1]) {
+//                 delayAction(b[i], villainBet2, del + 2000)
+//             }
+//
+//             if (c[i] == '-') {
+//                 folded[2] = true;
+//             }
+//             if (i < c.length && !folded[2]) {
+//                 delayAction(c[i], heroBet, del + 4000)
+//             }
+//
+//         }
+//         len--
+//         if (len > 0)
+//             preflopBets()
+//         console.log(len)
+//
+//     }, i * 4000)
+//
+// }
+
+function preflopBets() {
+
+    var a = document.getElementById('player1Preflop').value.split(';')
+    var b = document.getElementById('player2Preflop').value.split(';')
+    var c = document.getElementById('player3Preflop').value.split(';')
+    var folded = [false, false, false]
+    var del = 2000;
+    for (var i = 0; i < 3; i++) {
+
+        if (a[i] == '-') {
+            folded[0] = true
+        }
+        if (i < a.length && !folded[0]) {
+            delayAction(a[i], villainBet1, del)
+
+        }
+        del += 2000
+        if (b[i] == '-') {
+            folded[1] = true;
+        }
+        if (i < b.length && !folded[1]) {
+            delayAction(b[i], villainBet2, del)
+        }
+        del += 2000
+        if (c[i] == '-') {
+            folded[2] = true;
+        }
+        if (i < c.length && !folded[2]) {
+            delayAction(c[i], heroBet, del)
+        }
+        del += 2000
+    }
+
+}
+
+function delay_loop(items) {
+
+    var data = items.shift(),
+        // delay between each loop
+        delay = 2000;
+
+    // start a delay
+    setTimeout(function() {
+
+        // process array data
+        for (var i = 0, l = data.length; i < l; i++) {
+            console.log(data[i]);
+        }
+
+        // recursive call
+
+    }, delay);
 }
 
 let hhTemplate = `PokerStars Hand #196297268516: Tournament #2521792044, $28.20+$1.80 USD Hold'em No Limit - Level I ([INPUT_BLINDS]) - 2019/01/27 14:01:37 ET <br>
