@@ -109,10 +109,11 @@ function setTurn() {
         } else {
             document.getElementById("turn").src = 'assets/cards/' + flop_card_4 + '.png';
         }
-    } else {
-        var image = document.getElementById('turn')
-        image.remove();
     }
+    //else {
+    //     var image = document.getElementById('turn')
+    //     image.remove();
+    // }
 }
 
 function setRiver() {
@@ -126,10 +127,11 @@ function setRiver() {
         } else {
             document.getElementById("river").src = 'assets/cards/' + flop_card_5 + '.png';
         }
-    } else {
-        var image = document.getElementById('river')
-        image.remove();
     }
+    //else  {
+    //     var image = document.getElementById('river')
+    //     image.remove();
+    // }
 }
 
 var cbs = document.querySelectorAll('[name="check"]');
@@ -144,19 +146,17 @@ var cbs = document.querySelectorAll('[name="check"]');
     });
 });
 
-function setBlinds() {
-    smallBlind = document.getElementById('smallBlind').value
-    bigBlind = document.getElementById('bigBlind').value
+function setBlinds(sb, bb) {
 
-    if (smallBlind) {
-        document.getElementById('smallBlindContainer').innerHTML = smallBlind;
+    if (sb) {
+        document.getElementById('smallBlindContainer').innerHTML = sb;
         var sb = document.createElement("img")
         sb.setAttribute("src", 'assets/chips/chipone.png')
         sb.setAttribute("id", 'sb')
         document.getElementById("smallBlindContainer").appendChild(sb)
     }
-    if (bigBlind) {
-        document.getElementById('bigBlindContainer').innerHTML = bigBlind;
+    if (bb) {
+        document.getElementById('bigBlindContainer').innerHTML = bb;
         var bb = document.createElement("img")
         bb.setAttribute("src", 'assets/chips/chipone.png')
         bb.setAttribute("id", 'bb')
@@ -165,9 +165,16 @@ function setBlinds() {
 }
 
 function showButton(checked, id, buttonPosition) {
+    var sb = document.getElementById('smallBlind').value
+    var bb = document.getElementById('bigBlind').value
+
     var smallBlind = document.getElementById('smallBlindContainer')
     var bigBlind = document.getElementById('bigBlindContainer')
-    setBlinds()
+
+    var vill1Bet = document.getElementById('villain1BetSize')
+    var vill2Bet = document.getElementById('villain3BetSize')
+    var vill3Bet = document.getElementById('heroBetSize')
+    //setBlinds(sb, bb)
     blindsPotsize()
 
     if (checked === true && id === 'button1') {
@@ -176,9 +183,14 @@ function showButton(checked, id, buttonPosition) {
         x.style.left = '425px';
         x.style.top = '225px';
         this.buttonPosition = 1;
-        smallBlind.style.cssText = "left: 775px; top: 265px; visibility: visible"
-        bigBlind.style.cssText = "left: 625px; top: 500px; visibility: visible "
-
+        // smallBlind.style.cssText = "left: 775px; top: 265px; visibility: visible"
+        // bigBlind.style.cssText = "left: 625px; top: 500px; visibility: visible "
+        clearBets()
+        villainBet2(sb)
+        heroBet(bb)
+        insertValues()
+        document.getElementById('rightSeatStack').innerHTML = Number(document.getElementById('rightSeatStack').innerHTML) - Number(sb)
+        document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(bb)
     }
     if (checked === true && id === 'button2') {
         var x = document.getElementById('buttonImage');
@@ -186,9 +198,15 @@ function showButton(checked, id, buttonPosition) {
         x.style.left = '725px';
         x.style.top = '225px';
         this.buttonPosition = 2;
-        smallBlind.style.left = '755px';
-        smallBlind.style.cssText = "left: 625px; top: 500px; visibility: visible "
-        bigBlind.style.cssText = "left: 375px; top: 265px; visibility: visible "
+        clearBets()
+        heroBet(sb)
+        villainBet1(bb)
+        // smallBlind.style.left = '755px';
+        // smallBlind.style.cssText = "left: 625px; top: 500px; visibility: visible "
+        // bigBlind.style.cssText = "left: 375px; top: 265px; visibility: visible "
+        insertValues()
+        document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(sb)
+        document.getElementById('leftSeatStack').innerHTML = Number(document.getElementById('leftSeatStack').innerHTML) - Number(bb)
     }
     if (checked === true && id === 'button3') {
         var x = document.getElementById('buttonImage')
@@ -196,9 +214,15 @@ function showButton(checked, id, buttonPosition) {
         x.style.left = '700px';
         x.style.top = '525px';
         this.buttonPosition = 3;
-        smallBlind.style.left = '755px';
-        smallBlind.style.cssText = "left: 375px; top: 265px; visibility: visible "
-        bigBlind.style.cssText = "left: 775px; top: 265px; visibility: visible"
+        clearBets()
+        heroBet(sb)
+        villainBet1(bb)
+        // smallBlind.style.left = '755px';
+        // smallBlind.style.cssText = "left: 375px; top: 265px; visibility: visible "
+        // bigBlind.style.cssText = "left: 775px; top: 265px; visibility: visible"
+        insertValues()
+        document.getElementById('leftSeatStack').innerHTML = Number(document.getElementById('leftSeatStack').innerHTML) - Number(sb)
+        document.getElementById('rightSeatStack').innerHTML = Number(document.getElementById('rightSeatStack').innerHTML) - Number(bb)
 
     }
 
@@ -244,41 +268,42 @@ function clearBets() {
 }
 
 function villainBet1(bet) {
-
     var villainBet = bet
+    var previousBet = Number(document.getElementById("villain1BetSize").innerHTML);
     var stack = document.getElementById("leftSeatStack").innerHTML;
     var pot = document.getElementById("leftSeatStack").innerHTML;
-    if (villainBet) {
+    if (villainBet && villainBet != '-') {
         document.getElementById("villainBet1").style.visibility = 'visible'
         document.getElementById("chip1").style.visibility = 'visible'
         document.getElementById("villain1BetSize").innerHTML = villainBet;
-        document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet);
+        document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
     }
-    potSizeTotal(villainBet)
+    potSizeTotal(villainBet - previousBet)
 }
 
 function villainBet2(bet) {
     var villainBet = bet
+    var previousBet = Number(document.getElementById("villain2BetSize").innerHTML);
     var stack = document.getElementById("rightSeatStack").innerHTML;
-    if (villainBet) {
-
+    if (villainBet && villainBet != '-') {
         document.getElementById("villainBet2").style.visibility = 'visible'
         document.getElementById("chip2").style.visibility = 'visible'
         document.getElementById("villain2BetSize").innerHTML = villainBet;
-        document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet);
-        potSizeTotal(villainBet)
+        document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
+        potSizeTotal(villainBet - previousBet)
     }
 }
 
 function heroBet(bet) {
     var heroBet = bet
+    var previousBet = Number(document.getElementById("heroBetSize").innerHTML);
     var stack = document.getElementById("bottomSeatStack").innerHTML;
-    if (heroBet) {
+    if (heroBet && heroBet != '-') {
         document.getElementById("chip3").style.visibility = 'visible'
         document.getElementById("heroBet").style.visibility = 'visible'
         document.getElementById("heroBetSize").innerHTML = heroBet;
-        document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet);
-        potSizeTotal(heroBet)
+        document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet) + previousBet;
+        potSizeTotal(heroBet - previousBet)
     }
 }
 
@@ -298,85 +323,174 @@ function clearFoldedCars(player) {
     document.getElementById(player).style.visibility = 'hidden'
 }
 
-function actionSeq() {
-    var actionSequence = [villainBet1, villainBet2, heroBet]
-    if (this.buttonPosition == 2) {
-        actionSequence = [villainBet2, heroBet, villainBet1]
-    } else if (this.buttonPosition == 3) {
-        actionSequence = [heroBet, villainBet1, villainBet2]
+function actionSeq(postflop) {
+    if (!postflop) {
+        var actionSequence = [villainBet1, villainBet2, heroBet]
+        if (this.buttonPosition == 2) {
+            actionSequence = [villainBet2, heroBet, villainBet1]
+        } else if (this.buttonPosition == 3) {
+            actionSequence = [heroBet, villainBet1, villainBet2]
+        }
     }
-
+    if (postflop) {
+        var actionSequence = [villainBet2, heroBet, villainBet1]
+        if (this.buttonPosition == 2) {
+            actionSequence = [heroBet, villainBet1, villainBet2]
+        } else if (this.buttonPosition == 3) {
+            actionSequence = [villainBet1, villainBet2, heroBet]
+        }
+    }
     return actionSequence
+}
+
+function clearSmallBlind() {
+    var blinds = document.querySelectorAll('#smallBlindContainer');
+    blinds.forEach(function(blind) {
+        blind.style.visibility = 'hidden'
+    })
+}
+function clearBigBlind() {
+    var blinds = document.querySelectorAll('#bigBlindContainer');
+    blinds.forEach(function(blind) {
+        blind.style.visibility = 'hidden'
+    })
+}
+
+function foldDesc(obj) {
+    var stack = document.getElementById(obj).innerHTML;
+    document.getElementById(obj).innerHTML = 'fold'
+    setTimeout(function() {
+        document.getElementById(obj).innerHTML = stack
+    }, 500)
+
+}
+
+function checkDesc(obj) {
+    var stack = document.getElementById(obj).innerHTML;
+    document.getElementById(obj).innerHTML = 'check'
+    setTimeout(function() {
+        document.getElementById(obj).innerHTML = stack
+    }, 500)
+
 }
 
 var del = 2000;
 
 function preflopBets() {
-    var actionSequence = actionSeq()
+    var postflop = false
+    var actionSequence = actionSeq(postflop)
 
-    if (this.buttonPosition == 1) {
-        var a = document.getElementById('player1Preflop').value.split(';')
-        var b = document.getElementById('player2Preflop').value.split(';')
-        var c = document.getElementById('player3Preflop').value.split(';')
-        var objId = {
-            a: 'leftVillainCards',
-            b: 'rightVillainCards',
-            c: 'heroCards'
+    var inputs = document.querySelectorAll('#player1Preflop, #player2Preflop, #player3Preflop')
+    var inputsLen = 0
+    inputs.forEach(function(input) {
+        inputsLen += input.value.length
+    })
+    if (inputsLen > 0) {
+        if (this.buttonPosition == 1) {
+            var a = document.getElementById('player1Preflop').value.split(';')
+            var b = document.getElementById('player2Preflop').value.split(';')
+            var c = document.getElementById('player3Preflop').value.split(';')
+            var objId = {
+                a: 'leftVillainCards',
+                aStack: 'leftSeatStack',
+                b: 'rightVillainCards',
+                bStack: 'rightSeatStack',
+                c: 'heroCards',
+                cStack: 'bottomSeatStack'
+            }
+        } else if (this.buttonPosition == 2) {
+            var a = document.getElementById('player2Preflop').value.split(';')
+            var b = document.getElementById('player3Preflop').value.split(';')
+            var c = document.getElementById('player1Preflop').value.split(';')
+            var objId = {
+                a: 'rightVillainCards',
+                aStack: 'rightSeatStack',
+                b: 'heroCards',
+                bStack: 'bottomSeatStack',
+                c: 'leftVillainCards',
+                cStack: 'leftSeatStack'
+            }
+        } else if (this.buttonPosition == 3) {
+            var a = document.getElementById('player3Preflop').value.split(';')
+            var b = document.getElementById('player1Preflop').value.split(';')
+            var c = document.getElementById('player2Preflop').value.split(';')
+            var objId = {
+                a: 'heroCards',
+                aStack: 'bottomSeatStack',
+                b: 'leftVillainCards',
+                bStack: 'leftSeatStack',
+                c: 'rightVillainCards',
+                cStack: 'rightSeatStack'
+            }
         }
-    } else if (this.buttonPosition == 2) {
-        var a = document.getElementById('player2Preflop').value.split(';')
-        var b = document.getElementById('player3Preflop').value.split(';')
-        var c = document.getElementById('player1Preflop').value.split(';')
-        var objId = {
-            a: 'rightVillainCards',
-            b: 'heroCards',
-            c: 'leftVillainCards'
-        }
-    } else if (this.buttonPosition == 3) {
-        var a = document.getElementById('player3Preflop').value.split(';')
-        var b = document.getElementById('player1Preflop').value.split(';')
-        var c = document.getElementById('player2Preflop').value.split(';')
-        var objId = {
-            a: 'heroCards',
-            b: 'leftVillainCards',
-            c: 'rightVillainCards'
-        }
-    }
 
-    var folded = [false, false, false]
-    var max = Math.max(a.length, b.length, c.length)
+        var folded = [false, false, false]
+        var max = Math.max(a.length, b.length, c.length)
 
-    for (var i = 0; i < max; i++) {
+        for (var i = 0; i < max; i++) {
 
-        if (a[i] == '-') {
-            folded[0] = true
-            delayFold(objId.a, clearFoldedCars, del)
-        }
-        if (i < a.length && !folded[0]) {
-            delayAction(a[i], actionSequence[0], del)
-        }
-        del += 2000
-        if (b[i] == '-') {
-            folded[1] = true;
-            delayFold(objId.b, clearFoldedCars, del)
+            if (a[i] == '-') {
+                folded[0] = true
+                setTimeout(function() {
+                    foldDesc(objId.aStack)
+                }, del - 250)
+                delayFold(objId.a, clearFoldedCars, del)
+            }
+            if (a[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.aStack)
+                }, del - 250)
+            }
+            if (i < a.length && !folded[0] && a[i] != 'x') {
+                delayAction(a[i], actionSequence[0], del)
+            }
+            del += 2000
+            if (b[i] == '-') {
+                folded[1] = true;
+                setTimeout(function() {
+                    foldDesc(objId.bStack),
+                    clearSmallBlind()
+                }, del - 250)
+                delayFold(objId.b, clearFoldedCars, del)
+            }
+            if (b[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.bStack)
+                }, del - 250)
+            }
+            if (i < b.length && !folded[1] && b[i] != 'x') {
+                delayAction(b[i], actionSequence[1], del)
+                setTimeout(function() {
+                    clearSmallBlind()
+                }, del - 250)
+            }
+            del += 2000
+            if (c[i] == '-') {
+                folded[2] = true;
+                setTimeout(function() {
+                    foldDesc(objId.cStack)
+                }, del - 250)
+                delayFold(objId.c, clearFoldedCars, del)
+            }
+            if (c[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.cStack)
+                }, del - 250)
+            }
+            if (i < c.length && !folded[2] && c[i] != 'x') {
+                delayAction(c[i], actionSequence[2], del)
+                delayAction(b[i], actionSequence[1], del)
+                setTimeout(function() {
+                    clearBigBlind()
+                }, del - 250)
+            }
+            del += 2000
 
         }
-        if (i < b.length && !folded[1]) {
-            delayAction(b[i], actionSequence[1], del)
-        }
-        del += 2000
-        if (c[i] == '-') {
-            folded[2] = true;
-            delayFold(objId.c, clearFoldedCars, del)
-
-        }
-        if (i < c.length && !folded[2]) {
-            delayAction(c[i], actionSequence[2], del)
-        }
-        del += 2000
-
     }
     setTimeout(function() {
+        clearBigBlind()
+        clearSmallBlind()
         clearBets()
         setFlop()
     }, del)
@@ -384,71 +498,115 @@ function preflopBets() {
 }
 
 function flopBets() {
-    var actionSequence = actionSeq()
+    var postflop = true
+    var actionSequence = actionSeq(postflop)
+    var inputs = document.querySelectorAll('#player1Flop, #player2Flop, #player3Flop')
+    var inputsLen = 0
+    inputs.forEach(function(input) {
+        inputsLen += input.value.length
+    })
     del += 2000
-    if (this.buttonPosition == 1) {
-        var a = document.getElementById('player1Flop').value.split(';')
-        var b = document.getElementById('player2Flop').value.split(';')
-        var c = document.getElementById('player3Flop').value.split(';')
-        var objId = {
-            a: 'leftVillainCards',
-            b: 'rightVillainCards',
-            c: 'heroCards'
+    if (inputsLen > 0) {
+        if (this.buttonPosition == 1) {
+            var a = document.getElementById('player2Flop').value.split(';')
+            var b = document.getElementById('player3Flop').value.split(';')
+            var c = document.getElementById('player1Flop').value.split(';')
+            var objId = {
+                a: 'rightVillainCards',
+                aStack: 'rightSeatStack',
+                b: 'heroCards',
+                bStack: 'bottomSeatStack',
+                c: 'leftVillainCards',
+                cStack: 'leftSeatStack'
+            }
+        } else if (this.buttonPosition == 2) {
+            var a = document.getElementById('player3Flop').value.split(';')
+            var b = document.getElementById('player1Flop').value.split(';')
+            var c = document.getElementById('player2Flop').value.split(';')
+            var objId = {
+                a: 'heroCards',
+                aStack: 'bottomSeatStack',
+                b: 'leftVillainCards',
+                bStack: 'leftSeatStack',
+                c: 'rightVillainCards',
+                cStack: 'rightSeatStack'
+            }
+        } else if (this.buttonPosition == 3) {
+            var a = document.getElementById('player1Flop').value.split(';')
+            var b = document.getElementById('player2Flop').value.split(';')
+            var c = document.getElementById('player3Flop').value.split(';')
+            var objId = {
+                a: 'leftSeatStack',
+                aStack: 'leftSeatStack',
+                b: 'rightVillainCards',
+                bStack: 'rightSeatStack',
+                c: 'heroCards',
+                cStack: 'bottomSeatStack'
+            }
         }
-    } else if (this.buttonPosition == 2) {
-        var a = document.getElementById('player2Flop').value.split(';')
-        var b = document.getElementById('player3Flop').value.split(';')
-        var c = document.getElementById('player1Flop').value.split(';')
-        var objId = {
-            a: 'rightVillainCards',
-            b: 'heroCards',
-            c: 'leftVillainCards'
-        }
-    } else if (this.buttonPosition == 3) {
-        var a = document.getElementById('player3Flop').value.split(';')
-        var b = document.getElementById('player1Flop').value.split(';')
-        var c = document.getElementById('player2Flop').value.split(';')
-        var objId = {
-            a: 'heroCards',
-            b: 'leftVillainCards',
-            c: 'rightVillainCards'
+
+        var folded = [false, false, false]
+
+        var max = Math.max(a.length, b.length, c.length)
+
+        for (var i = 0; i < max; i++) {
+
+            if (a[i] == '-') {
+                folded[0] = true
+                setTimeout(function() {
+                    foldDesc(objId.aStack)
+                }, del - 250)
+                delayFold(objId.a, clearFoldedCars, del)
+            }
+            if (a[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.aStack)
+                }, del - 250)
+            }
+
+            if (i < a.length && !folded[0] && a[i] != 'x') {
+                console.log(a[i])
+                delayAction(a[i], actionSequence[0], del)
+            }
+            del += 2000
+            if (b[i] == '-') {
+                folded[1] = true;
+                setTimeout(function() {
+                    foldDesc(objId.bStack)
+                }, del - 250)
+                delayFold(objId.b, clearFoldedCars, del)
+            }
+            if (b[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.bStack)
+                }, del - 250)
+            }
+
+            if (i < b.length && !folded[1] && b[i] != 'x') {
+                delayAction(b[i], actionSequence[1], del)
+            }
+            del += 2000
+            if (c[i] == '-') {
+                folded[2] = true;
+                setTimeout(function() {
+                    foldDesc(objId.cStack)
+                }, del - 250)
+                delayFold(objId.c, clearFoldedCars, del)
+
+            }
+            if (c[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.cStack)
+                }, del - 250)
+            }
+            if (i < c.length && !folded[2] && c[i] != 'x') {
+                delayAction(c[i], actionSequence[2], del)
+            }
+            del += 2000
+
         }
     }
 
-    var folded = [false, false, false]
-
-    var max = Math.max(a.length, b.length, c.length)
-
-    for (var i = 0; i < max; i++) {
-
-        if (a[i] == '-') {
-            folded[0] = true
-            delayFold(objId.a, clearFoldedCars, del)
-        }
-        if (i < a.length && !folded[0]) {
-            delayAction(a[i], actionSequence[0], del)
-        }
-        del += 2000
-        if (b[i] == '-') {
-            folded[1] = true;
-            delayFold(objId.b, clearFoldedCars, del)
-
-        }
-        if (i < b.length && !folded[1]) {
-            delayAction(b[i], actionSequence[1], del)
-        }
-        del += 2000
-        if (c[i] == '-') {
-            folded[2] = true;
-            delayFold(objId.c, clearFoldedCars, del)
-
-        }
-        if (i < c.length && !folded[2]) {
-            delayAction(c[i], actionSequence[2], del)
-        }
-        del += 2000
-
-    }
     setTimeout(function() {
         clearBets()
         setTurn()
@@ -457,144 +615,236 @@ function flopBets() {
 }
 
 function turnBets() {
-    var actionSequence = actionSeq()
+    var postflop = true
+    var actionSequence = actionSeq(postflop)
+    var inputs = document.querySelectorAll('#player1Turn, #player2Turn, #player3Turn')
+    var inputsLen = 0
+    inputs.forEach(function(input) {
+        inputsLen += input.value.length
+    })
+
     del += 2000
-    if (this.buttonPosition == 1) {
-        var a = document.getElementById('player1Turn').value.split(';')
-        var b = document.getElementById('player2Turn').value.split(';')
-        var c = document.getElementById('player3Turn').value.split(';')
-        var objId = {
-            a: 'leftVillainCards',
-            b: 'rightVillainCards',
-            c: 'heroCards'
+    if (inputsLen > 0) {
+        if (this.buttonPosition == 1) {
+            var a = document.getElementById('player2Turn').value.split(';')
+            var b = document.getElementById('player3Turn').value.split(';')
+            var c = document.getElementById('player1Turn').value.split(';')
+            var objId = {
+                a: 'rightVillainCards',
+                aStack: 'rightSeatStack',
+                b: 'heroCards',
+                bStack: 'bottomSeatStack',
+                c: 'leftVillainCards',
+                cStack: 'leftSeatStack'
+            }
+        } else if (this.buttonPosition == 2) {
+            var a = document.getElementById('player3Turn').value.split(';')
+            var b = document.getElementById('player1Turn').value.split(';')
+            var c = document.getElementById('player2Turn').value.split(';')
+            var objId = {
+                a: 'heroCards',
+                aStack: 'bottomSeatStack',
+                b: 'leftVillainCards',
+                bStack: 'leftSeatStack',
+                c: 'rightVillainCards',
+                cStack: 'rightSeatStack'
+            }
+        } else if (this.buttonPosition == 3) {
+            var a = document.getElementById('player1Turn').value.split(';')
+            var b = document.getElementById('player2Turn').value.split(';')
+            var c = document.getElementById('player3Turn').value.split(';')
+            var objId = {
+                a: 'leftSeatStack',
+                aStack: 'leftSeatStack',
+                b: 'rightVillainCards',
+                bStack: 'rightSeatStack',
+                c: 'heroCards',
+                cStack: 'bottomSeatStack'
+            }
         }
-    } else if (this.buttonPosition == 2) {
-        var a = document.getElementById('player2Turn').value.split(';')
-        var b = document.getElementById('player3Turn').value.split(';')
-        var c = document.getElementById('player1Turn').value.split(';')
-        var objId = {
-            a: 'rightVillainCards',
-            b: 'heroCards',
-            c: 'leftVillainCards'
-        }
-    } else if (this.buttonPosition == 3) {
-        var a = document.getElementById('player3Turn').value.split(';')
-        var b = document.getElementById('player1Turn').value.split(';')
-        var c = document.getElementById('player2Turn').value.split(';')
-        var objId = {
-            a: 'heroCards',
-            b: 'leftVillainCards',
-            c: 'rightVillainCards'
-        }
-    }
 
-    var folded = [false, false, false]
-    var max = Math.max(a.length, b.length, c.length)
+        var folded = [false, false, false]
 
-    for (var i = 0; i < max; i++) {
+        var max = Math.max(a.length, b.length, c.length)
 
-        if (a[i] == '-') {
-            folded[0] = true
-            delayFold(objId.a, clearFoldedCars, del)
-        }
-        if (i < a.length && !folded[0]) {
-            delayAction(a[i], actionSequence[0], del)
-        }
-        del += 2000
-        if (b[i] == '-') {
-            folded[1] = true;
-            delayFold(objId.b, clearFoldedCars, del)
+        for (var i = 0; i < max; i++) {
+
+            if (a[i] == '-') {
+                folded[0] = true
+                setTimeout(function() {
+                    foldDesc(objId.aStack)
+                }, del - 250)
+                delayFold(objId.a, clearFoldedCars, del)
+            }
+            if (a[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.aStack)
+                }, del - 250)
+            }
+
+            if (i < a.length && !folded[0] && a[i] != 'x') {
+                console.log(a[i])
+                delayAction(a[i], actionSequence[0], del)
+            }
+            del += 2000
+            if (b[i] == '-') {
+                folded[1] = true;
+                setTimeout(function() {
+                    foldDesc(objId.bStack)
+                }, del - 250)
+                delayFold(objId.b, clearFoldedCars, del)
+            }
+            if (b[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.bStack)
+                }, del - 250)
+            }
+
+            if (i < b.length && !folded[1] && b[i] != 'x') {
+                delayAction(b[i], actionSequence[1], del)
+            }
+            del += 2000
+            if (c[i] == '-') {
+                folded[2] = true;
+                setTimeout(function() {
+                    foldDesc(objId.cStack)
+                }, del - 250)
+                delayFold(objId.c, clearFoldedCars, del)
+
+            }
+            if (c[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.cStack)
+                }, del - 250)
+            }
+            if (i < c.length && !folded[2] && c[i] != 'x') {
+                delayAction(c[i], actionSequence[2], del)
+            }
+            del += 2000
 
         }
-        if (i < b.length && !folded[1]) {
-            delayAction(b[i], actionSequence[1], del)
-        }
-        del += 2000
-        if (c[i] == '-') {
-            folded[2] = true;
-            delayFold(objId.c, clearFoldedCars, del)
-
-        }
-        if (i < c.length && !folded[2]) {
-            delayAction(c[i], actionSequence[2], del)
-        }
-        del += 2000
-
     }
     setTimeout(function() {
         clearBets()
         setRiver()
     }, del)
+
 }
 
 function riverBets() {
-    var actionSequence = actionSeq()
+    var postflop = true
+    var actionSequence = actionSeq(postflop)
+    var inputs = document.querySelectorAll('#player1River, #player2River, #player3River')
+    var inputsLen = 0
+    inputs.forEach(function(input) {
+        inputsLen += input.value.length
+    })
+
     del += 2000
-    if (this.buttonPosition == 1) {
-        var a = document.getElementById('player1River').value.split(';')
-        var b = document.getElementById('player2River').value.split(';')
-        var c = document.getElementById('player3River').value.split(';')
-        var objId = {
-            a: 'leftVillainCards',
-            b: 'rightVillainCards',
-            c: 'heroCards'
+    if (inputsLen > 0) {
+        if (this.buttonPosition == 1) {
+            var a = document.getElementById('player2River').value.split(';')
+            var b = document.getElementById('player3River').value.split(';')
+            var c = document.getElementById('player1River').value.split(';')
+            var objId = {
+                a: 'rightVillainCards',
+                aStack: 'rightSeatStack',
+                b: 'heroCards',
+                bStack: 'bottomSeatStack',
+                c: 'leftVillainCards',
+                cStack: 'leftSeatStack'
+            }
+        } else if (this.buttonPosition == 2) {
+            var a = document.getElementById('player3River').value.split(';')
+            var b = document.getElementById('player1River').value.split(';')
+            var c = document.getElementById('player2River').value.split(';')
+            var objId = {
+                a: 'heroCards',
+                aStack: 'bottomSeatStack',
+                b: 'leftVillainCards',
+                bStack: 'leftSeatStack',
+                c: 'rightVillainCards',
+                cStack: 'rightSeatStack'
+            }
+        } else if (this.buttonPosition == 3) {
+            var a = document.getElementById('player1River').value.split(';')
+            var b = document.getElementById('player2River').value.split(';')
+            var c = document.getElementById('player3River').value.split(';')
+            var objId = {
+                a: 'leftSeatStack',
+                aStack: 'leftSeatStack',
+                b: 'rightVillainCards',
+                bStack: 'rightSeatStack',
+                c: 'heroCards',
+                cStack: 'bottomSeatStack'
+            }
         }
-    } else if (this.buttonPosition == 2) {
-        var a = document.getElementById('player2River').value.split(';')
-        var b = document.getElementById('player3River').value.split(';')
-        var c = document.getElementById('player1River').value.split(';')
-        var objId = {
-            a: 'rightVillainCards',
-            b: 'heroCards',
-            c: 'leftVillainCards'
-        }
-    } else if (this.buttonPosition == 3) {
-        var a = document.getElementById('player3River').value.split(';')
-        var b = document.getElementById('player1River').value.split(';')
-        var c = document.getElementById('player2River').value.split(';')
-        var objId = {
-            a: 'heroCards',
-            b: 'leftVillainCards',
-            c: 'rightVillainCards'
-        }
-    }
 
-    var folded = [false, false, false]
-    var max = Math.max(a.length, b.length, c.length)
+        var folded = [false, false, false]
 
-    for (var i = 0; i < max; i++) {
+        var max = Math.max(a.length, b.length, c.length)
 
-        if (a[i] == '-') {
-            folded[0] = true
-            delayFold(objId.a, clearFoldedCars, del)
-        }
-        if (i < a.length && !folded[0]) {
-            delayAction(a[i], actionSequence[0], del)
-        }
-        del += 2000
-        if (b[i] == '-') {
-            folded[1] = true;
-            delayFold(objId.b, clearFoldedCars, del)
+        for (var i = 0; i < max; i++) {
+
+            if (a[i] == '-') {
+                folded[0] = true
+                setTimeout(function() {
+                    foldDesc(objId.aStack)
+                }, del - 250)
+                delayFold(objId.a, clearFoldedCars, del)
+            }
+            if (a[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.aStack)
+                }, del - 250)
+            }
+
+            if (i < a.length && !folded[0] && a[i] != 'x') {
+                console.log(a[i])
+                delayAction(a[i], actionSequence[0], del)
+            }
+            del += 2000
+            if (b[i] == '-') {
+                folded[1] = true;
+                setTimeout(function() {
+                    foldDesc(objId.bStack)
+                }, del - 250)
+                delayFold(objId.b, clearFoldedCars, del)
+            }
+            if (b[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.bStack)
+                }, del - 250)
+            }
+
+            if (i < b.length && !folded[1] && b[i] != 'x') {
+                delayAction(b[i], actionSequence[1], del)
+            }
+            del += 2000
+            if (c[i] == '-') {
+                folded[2] = true;
+                setTimeout(function() {
+                    foldDesc(objId.cStack)
+                }, del - 250)
+                delayFold(objId.c, clearFoldedCars, del)
+
+            }
+            if (c[i] == 'x') {
+                setTimeout(function() {
+                    checkDesc(objId.cStack)
+                }, del - 250)
+            }
+            if (i < c.length && !folded[2] && c[i] != 'x') {
+                delayAction(c[i], actionSequence[2], del)
+            }
+            del += 2000
 
         }
-        if (i < b.length && !folded[1]) {
-            delayAction(b[i], actionSequence[1], del)
-        }
-        del += 2000
-        if (c[i] == '-') {
-            folded[2] = true;
-            delayFold(objId.c, clearFoldedCars, del)
-
-        }
-        if (i < c.length && !folded[2]) {
-            delayAction(c[i], actionSequence[2], del)
-        }
-        del += 2000
-
     }
     setTimeout(function() {
         clearBets()
     }, del)
+
 }
 
 function generate() {
@@ -603,6 +853,10 @@ function generate() {
     turnBets()
     riverBets()
 }
+
+// flopBets()
+// turnBets()
+// riverBets()
 
 let hhTemplate = `PokerStars Hand #196297268516: Tournament #2521792044, $28.20+$1.80 USD Hold'em No Limit - Level I ([INPUT_BLINDS]) - 2019/01/27 14:01:37 ET <br>
 Table '2521792044 1' 3-max Seat #1 is the button <br>
