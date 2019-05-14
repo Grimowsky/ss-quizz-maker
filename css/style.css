@@ -251,7 +251,11 @@ img {
 
 
 .btn {
-     width: 60px !important;
+     width: 70px !important;
+}
+
+.form {
+   width: 65px !important;
 }
 
 #board{

@@ -284,7 +284,7 @@ function potSizeTotal(bet) {
   var pot = Number(document.getElementById("totalStack").innerHTML, 10);
 
   document.getElementById("totalStack").innerHTML = pot + parseInt(bet)
-  console.log(bet)
+
 }
 
 function clearBets() {
@@ -405,7 +405,13 @@ function checkDesc(obj) {
 
 }
 
-var del = 2000;
+var del;
+var delBetween;
+
+function setDel() {
+  del = parseInt(document.getElementById('delay').value * 1000)
+  delBetween = parseInt(document.getElementById('delay2').value * 1000)
+}
 
 function preflopBets() {
   var postflop = false
@@ -475,7 +481,7 @@ function preflopBets() {
       if (i < a.length && !folded[0] && a[i] != 'x') {
         delayAction(a[i], actionSequence[0], del)
       }
-      del += 2000
+      del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
@@ -495,7 +501,7 @@ function preflopBets() {
           clearSmallBlind()
         }, del - 250)
       }
-      del += 2000
+      del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
@@ -515,7 +521,7 @@ function preflopBets() {
           clearBigBlind()
         }, del - 250)
       }
-      del += 2000
+      del += delBetween
 
     }
   }
@@ -536,7 +542,7 @@ function flopBets() {
   inputs.forEach(function(input) {
     inputsLen += input.value.length
   })
-  del += 2000
+  del += delBetween
   if (inputsLen > 0) {
     if (this.buttonPosition == 1) {
       var a = document.getElementById('player2Flop').value.split(';')
@@ -599,7 +605,7 @@ function flopBets() {
         console.log(a[i])
         delayAction(a[i], actionSequence[0], del)
       }
-      del += 2000
+      del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
@@ -616,7 +622,7 @@ function flopBets() {
       if (i < b.length && !folded[1] && b[i] != 'x') {
         delayAction(b[i], actionSequence[1], del)
       }
-      del += 2000
+      del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
@@ -633,7 +639,7 @@ function flopBets() {
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
       }
-      del += 2000
+      del += delBetween
 
     }
   }
@@ -654,7 +660,7 @@ function turnBets() {
     inputsLen += input.value.length
   })
 
-  del += 2000
+  del += delBetween
   if (inputsLen > 0) {
     if (this.buttonPosition == 1) {
       var a = document.getElementById('player2Turn').value.split(';')
@@ -714,10 +720,10 @@ function turnBets() {
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
-        console.log(a[i])
+
         delayAction(a[i], actionSequence[0], del)
       }
-      del += 2000
+      del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
@@ -734,7 +740,7 @@ function turnBets() {
       if (i < b.length && !folded[1] && b[i] != 'x') {
         delayAction(b[i], actionSequence[1], del)
       }
-      del += 2000
+      del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
@@ -751,7 +757,7 @@ function turnBets() {
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
       }
-      del += 2000
+      del += delBetween
 
     }
   }
@@ -771,7 +777,7 @@ function riverBets() {
     inputsLen += input.value.length
   })
 
-  del += 2000
+  del += delBetween
   if (inputsLen > 0) {
     if (this.buttonPosition == 1) {
       var a = document.getElementById('player2River').value.split(';')
@@ -831,10 +837,10 @@ function riverBets() {
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
-        console.log(a[i])
+
         delayAction(a[i], actionSequence[0], del)
       }
-      del += 2000
+      del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
@@ -851,7 +857,7 @@ function riverBets() {
       if (i < b.length && !folded[1] && b[i] != 'x') {
         delayAction(b[i], actionSequence[1], del)
       }
-      del += 2000
+      del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
@@ -868,7 +874,7 @@ function riverBets() {
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
       }
-      del += 2000
+      del += delBetween
 
     }
   }
@@ -879,6 +885,7 @@ function riverBets() {
 }
 
 function restartHand() {
+
   if (document.getElementById('leftSeat').style.visibility != 'hidden') {
     var x = document.getElementById('leftVillainCards');
     if (x.style.visibility === 'hidden') {
@@ -920,8 +927,19 @@ function restartHand() {
 
 }
 
+function resetIntervals() {
+  var max = setTimeout(function() {/* Empty function */
+  }, 1);
+  for (var i = 1; i <= max; i++) {
+    window.clearInterval(i);
+    window.clearTimeout(i);
+    if (window.mozCancelAnimationFrame) 
+      window.mozCancelAnimationFrame(i); // Firefox
+    }
+  restartHand()
+}
 function generate() {
-  del = 2000
+  setDel()
   preflopBets()
   flopBets()
   turnBets()

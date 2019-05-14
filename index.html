@@ -2,180 +2,164 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>Smart Spin Quizzes Creator</title>
-    <link rel="stylesheet" href="css/style.css?v=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <title>Smart Spin Quizzes Creator</title>
+  <link rel="stylesheet" href="css/style.css?v=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
-    <div id='main'>
-        <div id='mainPot'>
-            <p id='pot'> Pot: </p>
-            <p id='totalStack'> </p>
-        </div>
-        <div id='villainBet1'>
-            <img id='chip1' src='assets/chips/chipone.png'>
-            <p id='villain1BetSize'> </p>
-        </div>
-        <div id='villainBet2'>
-            <img id='chip2' src='assets/chips/chipone.png'>
-            <p id='villain2BetSize'> </p>
-        </div>
-        <div id='heroBet'> <img id='chip3' src='assets/chips/chipone.png'>
-            <p id='heroBetSize'> </p>
-        </div>
-
-        <div id='topSeatContainer'>
-            <div id='leftSeat'>
-                <div id='leftVillainCards'>
-                    <img id='backCard1' src='assets/card-backface-3.png'>
-                    <img id='backCard2' src='assets/card-backface-3.png'>
-                </div>
-                <img src='assets/seat.png'>
-                <p id='leftSeatName' contenteditable="true" spellcheck="false">Player1</p>
-                <p id='leftSeatStack'></p>
-            </div>
-            <div id='rightSeat'>
-                <div id='rightVillainCards'>
-                    <img id='backCard1' src='assets/card-backface-3.png'>
-                    <img id='backCard2' src='assets/card-backface-3.png'>
-                </div>
-                <img src='assets/seat.png'>
-                <p id='rightSeatName' contenteditable="true" spellcheck="false">Player2</p>
-                <p id='rightSeatStack'></p>
-            </div>
-        </div>
-        <div id='board'>
-            <img id='flop_1' src='assets/card-backface-3.png'>
-            <img id='flop_2' src='assets/card-backface-3.png'>
-            <img id='flop_3' src='assets/card-backface-3.png'>
-        </div>
-        <img id='buttonImage' src='assets/chips/chip-d.png'>
-        <p id='smallBlindContainer' src='assets/chips/chipone.png' onfocusout='setBlinds()'></p>
-        <p id='bigBlindContainer' onfocusout='setBlinds()'> </p>
-        <div id='bottomSeatContainer'>
-            <div id='bottomSeat'>
-                <div id='heroCards'>
-                    <img id='backCard1_hero' src='assets/card-backface-3.png'>
-                    <img id='backCard2_hero' src='assets/card-backface-3.png'>
-                </div>
-                <img src='assets/seat.png'>
-                <p id='bottomSeatName' spellcheck="false">Hero</p>
-                <p id='bottomSeatStack'></p>
-            </div>
-        </div>
+  <div id='main'>
+    <div id='mainPot'>
+      <p id='pot'> Pot: </p>
+      <p id='totalStack'> </p>
     </div>
-    <div id='navBar'>
-        <div id='playerSettings'>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            <input type="radio" id='button1' name='check'>
-                        </div>
-                        <button class="btn btn-outline-secondary " type="button" onclick="hidePlayer()">Hide</button>
-                        <input id='stack1' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
-                        <input id='player1Preflop' type="text" class="form-control" placeholder="Pre Flop">
-                        <input id='player1Flop' type="text" class="form-control" placeholder="Flop">
-                        <input id='player1Turn' type="text" class="form-control" placeholder="Turn">
-                        <input id='player1River' type="text" class="form-control" placeholder="River">
-                    </div>
-                </div>
-            </form>
-
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            <input type="radio" id='button2' name='check'>
-                        </div>
-                        <button class="btn btn-outline-secondary " type="button" onclick="hidePlayer2()">Hide</button>
-                        <input id='stack2' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
-                        <input id='player2Preflop' type="text" class="form-control" placeholder="Pre Flop">
-                        <input id='player2Flop' type="text" class="form-control" placeholder="Flop">
-                        <input id='player2Turn' type="text" class="form-control" placeholder="Turn">
-                        <input id='player2River' type="text" class="form-control" placeholder="River">
-                    </div>
-                </div>
-            </form>
-
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            <input type="radio" id='button3' name='check'>
-                        </div>
-                        <button class="btn btn-outline-secondary " type="button" disabled></button>
-                        <input id='stack3' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
-                        <input id='player3Preflop' type="text" class="form-control" placeholder="Pre Flop">
-                        <input id='player3Flop' type="text" class="form-control" placeholder="Flop">
-                        <input id='player3Turn' type="text" class="form-control" placeholder="Turn">
-                        <input id='player3River' type="text" class="form-control" placeholder="River">
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div id='flopSettings' class='spacing'>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Hero Cards" id='heroCard' onfocusout='setHero()'>
-                        <input type="text" class="form-control" id='smallBlind' placeholder="SB">
-                        <input type="text" class="form-control" id='bigBlind' placeholder="BB">
-                    </div>
-                </div>
-            </form>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input id='flopInput' type="text" class="form-control" placeholder="Flop">
-                        <input id='flop_4_input' type="text" class="form-control" placeholder="Turn">
-                        <input id='flop_5_input' type="text" class="form-control" placeholder="River">
-                    </div>
-                </div>
-            </form>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <button class="btn btn-outline-secondary " type="button" onclick="generate()"> Play </button>
-                        <input type="text" class="form-control" placeholder="" readonly>
-                        <input type="text" class="form-control" placeholder="" readonly>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div id='speedSettings' class='spacing'>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="">
-                        <input type="text" class="form-control" placeholder="">
-                        <input type="text" class="form-control" placeholder="">
-                    </div>
-                </div>
-            </form>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="" readonly>
-                        <input type="text" class="form-control" placeholder="" readonly>
-                        <input type="text" class="form-control" placeholder="" readonly>
-                    </div>
-                </div>
-            </form>
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="" readonly>
-                        <input type="text" class="form-control" placeholder="" readonly>
-                        <input type="text" class="form-control" placeholder="" readonly>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <div id='villainBet1'>
+      <img id='chip1' src='assets/chips/chipone.png'>
+      <p id='villain1BetSize'> </p>
     </div>
-    <script src="js/script.js"></script>
+    <div id='villainBet2'>
+      <img id='chip2' src='assets/chips/chipone.png'>
+      <p id='villain2BetSize'> </p>
+    </div>
+    <div id='heroBet'> <img id='chip3' src='assets/chips/chipone.png'>
+      <p id='heroBetSize'> </p>
+    </div>
+
+    <div id='topSeatContainer'>
+      <div id='leftSeat'>
+        <div id='leftVillainCards'>
+          <img id='backCard1' src='assets/card-backface-3.png'>
+          <img id='backCard2' src='assets/card-backface-3.png'>
+        </div>
+        <img src='assets/seat.png'>
+        <p id='leftSeatName' contenteditable="true" spellcheck="false">Player1</p>
+        <p id='leftSeatStack'></p>
+      </div>
+      <div id='rightSeat'>
+        <div id='rightVillainCards'>
+          <img id='backCard1' src='assets/card-backface-3.png'>
+          <img id='backCard2' src='assets/card-backface-3.png'>
+        </div>
+        <img src='assets/seat.png'>
+        <p id='rightSeatName' contenteditable="true" spellcheck="false">Player2</p>
+        <p id='rightSeatStack'></p>
+      </div>
+    </div>
+    <div id='board'>
+      <img id='flop_1' src='assets/card-backface-3.png'>
+      <img id='flop_2' src='assets/card-backface-3.png'>
+      <img id='flop_3' src='assets/card-backface-3.png'>
+    </div>
+    <img id='buttonImage' src='assets/chips/chip-d.png'>
+    <p id='smallBlindContainer' src='assets/chips/chipone.png' onfocusout='setBlinds()'></p>
+    <p id='bigBlindContainer' onfocusout='setBlinds()'> </p>
+    <div id='bottomSeatContainer'>
+      <div id='bottomSeat'>
+        <div id='heroCards'>
+          <img id='backCard1_hero' src='assets/card-backface-3.png'>
+          <img id='backCard2_hero' src='assets/card-backface-3.png'>
+        </div>
+        <img src='assets/seat.png'>
+        <p id='bottomSeatName' spellcheck="false">Hero</p>
+        <p id='bottomSeatStack'></p>
+      </div>
+    </div>
+  </div>
+  <div id='navBar'>
+    <div id='playerSettings'>
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-text">
+              <input type="radio" id='button1' name='check'>
+            </div>
+            <button class="btn btn-outline-secondary " type="button" onclick="hidePlayer()">Hide</button>
+            <input id='stack1' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
+            <input id='player1Preflop' type="text" class="form-control" placeholder="Pre Flop">
+            <input id='player1Flop' type="text" class="form-control" placeholder="Flop">
+            <input id='player1Turn' type="text" class="form-control" placeholder="Turn">
+            <input id='player1River' type="text" class="form-control" placeholder="River">
+          </div>
+        </div>
+      </form>
+
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-text">
+              <input type="radio" id='button2' name='check'>
+            </div>
+            <button class="btn btn-outline-secondary " type="button" onclick="hidePlayer2()">Hide</button>
+            <input id='stack2' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
+            <input id='player2Preflop' type="text" class="form-control" placeholder="Pre Flop">
+            <input id='player2Flop' type="text" class="form-control" placeholder="Flop">
+            <input id='player2Turn' type="text" class="form-control" placeholder="Turn">
+            <input id='player2River' type="text" class="form-control" placeholder="River">
+          </div>
+        </div>
+      </form>
+
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-text">
+              <input type="radio" id='button3' name='check'>
+            </div>
+            <button class="btn btn-outline-secondary " type="button" disabled></button>
+            <input id='stack3' type="text" class="form-control stackInput" placeholder="Stack" onfocusout='insertValues()'>
+            <input id='player3Preflop' type="text" class="form-control" placeholder="Pre Flop">
+            <input id='player3Flop' type="text" class="form-control" placeholder="Flop">
+            <input id='player3Turn' type="text" class="form-control" placeholder="Turn">
+            <input id='player3River' type="text" class="form-control" placeholder="River">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id='flopSettings' class='spacing'>
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Hero Cards" id='heroCard' onfocusout='setHero()'>
+            <input type="text" class="form-control" id='smallBlind' placeholder="SB">
+            <input type="text" class="form-control" id='bigBlind' placeholder="BB">
+          </div>
+        </div>
+      </form>
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <input id='flopInput' type="text" class="form-control" placeholder="Flop">
+            <input id='flop_4_input' type="text" class="form-control" placeholder="Turn">
+            <input id='flop_5_input' type="text" class="form-control" placeholder="River">
+          </div>
+        </div>
+      </form>
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+
+            <button class="btn btn-outline-secondary" type="button" onclick="generate()"> Play </button>
+            <button class="btn btn-outline-secondary " type="button" onclick="resetIntervals()"> Restart </button>
+            <input id='delay' type="text" class="form-control form" placeholder="Delay" value='2'>
+            <input id='delay2' type="text" class="form-control form" placeholder="Delay 2" value='1'>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id='speedSettings' class='spacing'>
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+
+
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+  <script src="js/script.js"></script>
 </body>
 
 </html>
