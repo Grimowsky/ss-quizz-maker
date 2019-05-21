@@ -392,7 +392,7 @@ function foldDesc(obj) {
   document.getElementById(obj).innerHTML = 'fold'
   setTimeout(function() {
     document.getElementById(obj).innerHTML = stack
-  }, 500)
+  }, 1500)
 
 }
 
@@ -401,7 +401,7 @@ function checkDesc(obj) {
   document.getElementById(obj).innerHTML = 'check'
   setTimeout(function() {
     document.getElementById(obj).innerHTML = stack
-  }, 500)
+  }, 1500)
 
 }
 
@@ -470,13 +470,13 @@ function preflopBets() {
         folded[0] = true
         setTimeout(function() {
           foldDesc(objId.aStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.aStack)
-        }, del - 250)
+        }, del)
       }
       if (i < a.length && !folded[0] && a[i] != 'x') {
         delayAction(a[i], actionSequence[0], del)
@@ -487,39 +487,39 @@ function preflopBets() {
         setTimeout(function() {
           foldDesc(objId.bStack),
           clearSmallBlind()
-        }, del - 250)
+        }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.bStack)
-        }, del - 250)
+        }, del)
       }
       if (i < b.length && !folded[1] && b[i] != 'x') {
         delayAction(b[i], actionSequence[1], del)
         setTimeout(function() {
           clearSmallBlind()
-        }, del - 250)
+        }, del)
       }
       del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
           foldDesc(objId.cStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.c, clearFoldedCars, del)
       }
       if (c[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.cStack)
-        }, del - 250)
+        }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
         delayAction(b[i], actionSequence[1], del)
         setTimeout(function() {
           clearBigBlind()
-        }, del - 250)
+        }, del)
       }
       del += delBetween
 
@@ -592,17 +592,17 @@ function flopBets() {
         folded[0] = true
         setTimeout(function() {
           foldDesc(objId.aStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.aStack)
-        }, del - 250)
+        }, del)
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
-        console.log(a[i])
+
         delayAction(a[i], actionSequence[0], del)
       }
       del += delBetween
@@ -610,13 +610,13 @@ function flopBets() {
         folded[1] = true;
         setTimeout(function() {
           foldDesc(objId.bStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.bStack)
-        }, del - 250)
+        }, del)
       }
 
       if (i < b.length && !folded[1] && b[i] != 'x') {
@@ -627,14 +627,14 @@ function flopBets() {
         folded[2] = true;
         setTimeout(function() {
           foldDesc(objId.cStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.c, clearFoldedCars, del)
 
       }
       if (c[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.cStack)
-        }, del - 250)
+        }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
@@ -710,13 +710,13 @@ function turnBets() {
         folded[0] = true
         setTimeout(function() {
           foldDesc(objId.aStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.aStack)
-        }, del - 250)
+        }, del)
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
@@ -728,13 +728,13 @@ function turnBets() {
         folded[1] = true;
         setTimeout(function() {
           foldDesc(objId.bStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.bStack)
-        }, del - 250)
+        }, del)
       }
 
       if (i < b.length && !folded[1] && b[i] != 'x') {
@@ -745,14 +745,14 @@ function turnBets() {
         folded[2] = true;
         setTimeout(function() {
           foldDesc(objId.cStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.c, clearFoldedCars, del)
 
       }
       if (c[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.cStack)
-        }, del - 250)
+        }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
@@ -827,13 +827,13 @@ function riverBets() {
         folded[0] = true
         setTimeout(function() {
           foldDesc(objId.aStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.aStack)
-        }, del - 250)
+        }, del)
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
@@ -845,13 +845,13 @@ function riverBets() {
         folded[1] = true;
         setTimeout(function() {
           foldDesc(objId.bStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.bStack)
-        }, del - 250)
+        }, del)
       }
 
       if (i < b.length && !folded[1] && b[i] != 'x') {
@@ -862,14 +862,14 @@ function riverBets() {
         folded[2] = true;
         setTimeout(function() {
           foldDesc(objId.cStack)
-        }, del - 250)
+        }, del)
         delayFold(objId.c, clearFoldedCars, del)
 
       }
       if (c[i] == 'x') {
         setTimeout(function() {
           checkDesc(objId.cStack)
-        }, del - 250)
+        }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
         delayAction(c[i], actionSequence[2], del)
