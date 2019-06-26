@@ -35,10 +35,7 @@ Play/Restart buttons - Play generates actions, Restart restarts it.
 * if not provided Preflop - replay will not start. Replay stops on first empty action input
 
 
-
-
-
 Demo:
 
-![](HHsReplayer.gif)
+![](HHsReplayerSmart.gif)
 			
