@@ -33,6 +33,22 @@
 
 }
 
+
+#streetPot{
+    color: white;
+    position: absolute;
+    top: 430px;
+    left: 580px;
+    text-align: center;
+    background-color:rgba(0, 0, 0, 0.35);
+    width: 55px;
+    height: 30px;
+    vertical-align: middle;
+    line-height: 30px;
+    border-radius: 15px;
+
+}
+
 #preBetPot{
     color: white;
     position: absolute;
@@ -48,6 +64,11 @@
 }
 
 #totalStack, #pot {
+    display:inline-block;
+    font-weight: bold;
+}
+
+#strpot, #street {
     display:inline-block;
     font-weight: bold;
 }
@@ -205,6 +226,48 @@ img {
 #chip1, #chip2, #chip3{
     width: 25px;
     height: 25px;
+}
+
+#leftSeatOval {
+    width: 210px;
+    height: 65px;
+    border: 2px solid #a5a5a5;
+    border-radius: 75px 75px;
+    position: absolute;
+    z-index: 1;
+    left: 305px;
+    top: 22px;
+    visibility: hidden;
+}
+#rightSeatOval {
+    width: 210px;
+    height: 65px;
+    border: 2px solid #a5a5a5;
+    border-radius: 75px 75px;
+    position: absolute;
+    z-index: 1;
+    left: 685px;
+    top: 22px;
+    visibility: hidden;
+}
+
+#bottomSeatOval {
+    width: 210px;
+    height: 65px;
+    border: 2px solid #a5a5a5;
+    border-radius: 75px 75px;
+    position: absolute;
+    z-index: 1;
+    left: 495px;
+    top: 22px;
+    visibility: hidden;
+}
+
+
+#chip2raise, #chip3raise, #chip1raise{
+    width: 25px;
+    height: 25px;
+    visibility: hidden;
 }
 
 #backCard1, #backCard2{

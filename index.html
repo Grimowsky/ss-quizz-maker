@@ -15,28 +15,34 @@
       <p id='totalStack'> </p>
     </div>
     <div id='villainBet1'>
+      <img id='chip1raise' src='assets/chips/chipone.png'>
       <img id='chip1' src='assets/chips/chipone.png'>
       <p id='villain1BetSize'> </p>
     </div>
     <div id='villainBet2'>
+      <img id='chip2raise' src='assets/chips/chipone.png'>
       <img id='chip2' src='assets/chips/chipone.png'>
       <p id='villain2BetSize'> </p>
     </div>
-    <div id='heroBet'> <img id='chip3' src='assets/chips/chipone.png'>
+    <div id='heroBet'>
+      <img id='chip3raise' src='assets/chips/chipone.png'>
+      <img id='chip3' src='assets/chips/chipone.png'>
       <p id='heroBetSize'> </p>
     </div>
 
     <div id='topSeatContainer'>
+      <div id="leftSeatOval"> </div>
       <div id='leftSeat'>
         <div id='leftVillainCards'>
           <img id='backCard1' src='assets/card-backface-3.png'>
           <img id='backCard2' src='assets/card-backface-3.png'>
         </div>
-        <img src='assets/seat.png'>
+        <img id='' src='assets/seat.png'>
         <p id='leftSeatName' contenteditable="true" spellcheck="false">Player1</p>
         <p id='leftSeatStack'></p>
       </div>
       <div id='rightSeat'>
+        <div id="rightSeatOval"> </div>
         <div id='rightVillainCards'>
           <img id='backCard1' src='assets/card-backface-3.png'>
           <img id='backCard2' src='assets/card-backface-3.png'>
@@ -55,6 +61,7 @@
     <p id='smallBlindContainer' src='assets/chips/chipone.png' onfocusout='setBlinds()'></p>
     <p id='bigBlindContainer' onfocusout='setBlinds()'> </p>
     <div id='bottomSeatContainer'>
+      <div id="bottomSeatOval"> </div>
       <div id='bottomSeat'>
         <div id='heroCards'>
           <img id='backCard1_hero' src='assets/card-backface-3.png'>
@@ -64,6 +71,10 @@
         <p id='bottomSeatName' spellcheck="false">Hero</p>
         <p id='bottomSeatStack'></p>
       </div>
+    </div>
+    <div id='streetPot'>
+<!--      <p id='strpot'> Pot: </p>-->
+      <p id='street'> </p>
     </div>
   </div>
   <div id='navBar'>

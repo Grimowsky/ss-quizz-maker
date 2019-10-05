@@ -48,6 +48,7 @@ function insertValues() {
   var stack3 = document.getElementById("stack3").value;
   document.getElementById("bottomSeatStack").innerHTML = stack3;
   this.handInfo.hero.stack = stack3
+  howManyBets = 0
 }
 
 function hidePlayer() {
@@ -143,6 +144,7 @@ var cbs = document.querySelectorAll('[name="check"]');
       }
     }
     showButton(cb.target.checked, this.id)
+    howManyBets = 0
   });
 });
 
@@ -154,6 +156,7 @@ function setBlinds(sb, bb) {
     sb.setAttribute("src", 'assets/chips/chipone.png')
     sb.setAttribute("id", 'sb')
     document.getElementById("smallBlindContainer").appendChild(sb)
+
   }
   if (bb) {
     document.getElementById('bigBlindContainer').innerHTML = bb;
@@ -161,10 +164,12 @@ function setBlinds(sb, bb) {
     bb.setAttribute("src", 'assets/chips/chipone.png')
     bb.setAttribute("id", 'bb')
     document.getElementById("bigBlindContainer").appendChild(bb)
+
   }
 }
 
 function showButton(checked, id, buttonPosition) {
+  var showButton = true;
   var sb = document.getElementById('smallBlind').value
   var bb = document.getElementById('bigBlind').value
 
@@ -186,19 +191,21 @@ function showButton(checked, id, buttonPosition) {
     this.buttonPosition = 1;
     if (y.style.visibility != 'hidden') {
       clearBets()
-      villainBet2(sb)
-      heroBet(bb)
+      villainBet2(sb, showButton)
+      heroBet(bb, showButton)
       insertValues()
       document.getElementById('rightSeatStack').innerHTML = Number(document.getElementById('rightSeatStack').innerHTML) - Number(sb)
       document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(bb)
     } else {
       clearBets()
-      villainBet1(sb)
-      heroBet(bb)
+      villainBet1(sb, showButton)
+      heroBet(bb, showButton)
       insertValues()
       document.getElementById('leftSeatStack').innerHTML = Number(document.getElementById('leftSeatStack').innerHTML) - Number(sb)
       document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(bb)
+      howManyBets = 0
     }
+
   }
   if (checked === true && id === 'button2') {
     var x = document.getElementById('buttonImage');
@@ -209,18 +216,20 @@ function showButton(checked, id, buttonPosition) {
     this.buttonPosition = 2;
     if (y.style.visibility != 'hidden') {
       clearBets()
-      heroBet(sb)
-      villainBet1(bb)
+      heroBet(sb, showButton)
+      villainBet1(bb, showButton)
       insertValues()
       document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(sb)
       document.getElementById('leftSeatStack').innerHTML = Number(document.getElementById('leftSeatStack').innerHTML) - Number(bb)
+      howManyBets = 0
     } else {
       clearBets()
-      heroBet(bb)
-      villainBet2(sb)
+      heroBet(bb, showButton)
+      villainBet2(sb, showButton)
       insertValues()
       document.getElementById('rightSeatStack').innerHTML = Number(document.getElementById('rightSeatStack').innerHTML) - Number(sb)
       document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(bb)
+      howManyBets = 0
     }
   }
   if (checked === true && id === 'button3') {
@@ -233,29 +242,31 @@ function showButton(checked, id, buttonPosition) {
     this.buttonPosition = 3;
     if (y.style.visibility != 'hidden' && z.style.visibility != 'hidden') {
       clearBets()
-      villainBet1(sb)
-      villainBet2(bb)
+      villainBet1(sb, showButton)
+      villainBet2(bb, showButton)
       insertValues()
       document.getElementById('leftSeatStack').innerHTML = Number(document.getElementById('leftSeatStack').innerHTML) - Number(sb)
       document.getElementById('rightSeatStack').innerHTML = Number(document.getElementById('rightSeatStack').innerHTML) - Number(bb)
+      howManyBets = 0
     } else if (y.style.visibility == 'hidden' && z.style.visibility != 'hidden') {
       clearBets()
-      heroBet(sb)
-      villainBet2(bb)
+      heroBet(sb, showButton)
+      villainBet2(bb, showButton)
       insertValues()
       document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(sb)
       document.getElementById('rightSeatStack').innerHTML = Number(document.getElementById('rightSeatStack').innerHTML) - Number(bb)
+      howManyBets = 0
     } else if (y.style.visibility != 'hidden' && z.style.visibility == 'hidden') {
       clearBets()
-      heroBet(sb)
-      villainBet1(bb)
+      heroBet(sb, showButton)
+      villainBet1(bb, showButton)
       insertValues()
       document.getElementById('bottomSeatStack').innerHTML = Number(document.getElementById('bottomSeatStack').innerHTML) - Number(sb)
       document.getElementById('leftSeatStack').innerHTML = Number(document.getElementById('leftSeatStack').innerHTML) - Number(bb)
+      howManyBets = 0
     }
 
   }
-
 }
 
 var leftSeat = document.getElementById('leftSeatName')
@@ -287,61 +298,137 @@ function potSizeTotal(bet) {
 
 }
 
+function handleStreetPot(streetBet){
+  var pot = Number(document.getElementById("street").innerHTML, 10);
+  document.getElementById("street").innerHTML = pot + parseInt(streetBet)
+}
+
 function clearBets() {
-  var toClear = document.querySelectorAll('#chip1, #chip2, #chip3')
+  var toClear = document.querySelectorAll('#chip1, #chip2, #chip3, #chip1raise, #chip2raise, #chip3raise');
   toClear.forEach(element => {
     element.style.visibility = 'hidden'
   })
   var betClear = document.querySelectorAll('#villain1BetSize, #villain2BetSize, #heroBetSize')
   betClear.forEach(bet => {
     bet.innerHTML = ''
-  })
-
+  });
+  document.getElementById('street').innerText = '0'
+  howManyBets = 0
 }
 
-function villainBet1(bet) {
+function chipsHandler(howManyBets, playerChip){
+  if(howManyBets === 0){
+    document.getElementById(playerChip).src = "assets/chips/red-2.png"
+  } else if (howManyBets === 1 ){
+    document.getElementById(playerChip).src = "assets/chips/red-5.png"
+  } else if (howManyBets > 1){
+    document.getElementById(playerChip).src = "assets/chips/mix.png"
+  }
+}
+
+function villainBet1(bet, showButton) {
   var villainBet = bet
   var previousBet = Number(document.getElementById("villain1BetSize").innerHTML);
+  var previousVillainBet = Number(document.getElementById("heroBetSize").innerHTML);
   var stack = document.getElementById("leftSeatStack").innerHTML;
+  var previousVillain1Bet = Number(document.getElementById("heroBetSize").innerHTML);
+  var previousVillain2Bet = Number(document.getElementById("villain2BetSize").innerHTML);
+  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
   if (villainBet && villainBet != '-') {
+
+    if(villainBet > maxBet && !showButton){
+            chipsHandler(howManyBets, 'chip1raise');
+            document.getElementById("chip1raise").style.visibility = 'visible'
+
+      howManyBets++
+    } else{
+      document.getElementById("chip1raise").style.visibility = 'hidden'
+    }
+
     document.getElementById("villainBet1").style.visibility = 'visible'
     document.getElementById("chip1").style.visibility = 'visible'
     document.getElementById("villain1BetSize").innerHTML = villainBet;
     document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
-    potSizeTotal(villainBet - previousBet)
+    potSizeTotal(villainBet - previousBet);
+    handleStreetPot(bet)
+    if(showButton){
+      howManyBets = 0
+    }
   }
 }
 
-function villainBet2(bet) {
+
+function villainBet2(bet, showButton) {
   var villainBet = bet
   var previousBet = Number(document.getElementById("villain2BetSize").innerHTML);
   var stack = document.getElementById("rightSeatStack").innerHTML;
+  var previousVillain1Bet = Number(document.getElementById("villain1BetSize").innerHTML);
+  var previousVillain2Bet = Number(document.getElementById("villain2BetSize").innerHTML);
+  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
   if (villainBet && villainBet != '-') {
+
+    if(villainBet > maxBet && !showButton){
+
+      chipsHandler(howManyBets, 'chip2raise');
+      document.getElementById("chip2raise").style.visibility = 'visible'
+      howManyBets++
+    } else{
+      document.getElementById("chip2raise").style.visibility = 'hidden'
+    }
     document.getElementById("villainBet2").style.visibility = 'visible'
     document.getElementById("chip2").style.visibility = 'visible'
     document.getElementById("villain2BetSize").innerHTML = villainBet;
     document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
-    potSizeTotal(villainBet - previousBet)
+    potSizeTotal(villainBet - previousBet);
+    handleStreetPot(bet)
+    if(showButton){
+      howManyBets = 0
+    }
+
   }
 }
 
-function heroBet(bet) {
+function heroBet(bet, showButton) {
+
   var heroBet = bet
   var previousBet = Number(document.getElementById("heroBetSize").innerHTML);
   var stack = document.getElementById("bottomSeatStack").innerHTML;
+  var previousVillain2Bet = Number(document.getElementById("villain2BetSize").innerHTML);
+  var previousVillain1Bet = Number(document.getElementById("villain1BetSize").innerHTML);
+  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
   if (heroBet && heroBet != '-') {
+    if(heroBet > maxBet && !showButton){
+      // console.log(howManyBets)
+      chipsHandler(howManyBets, 'chip3raise');
+      document.getElementById("chip3raise").style.visibility = 'visible'
+      howManyBets++
+    }else{
+      document.getElementById("chip3raise").style.visibility = 'hidden'
+    }
     document.getElementById("chip3").style.visibility = 'visible'
     document.getElementById("heroBet").style.visibility = 'visible'
     document.getElementById("heroBetSize").innerHTML = heroBet;
     document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet) + previousBet;
-    potSizeTotal(heroBet - previousBet)
+    potSizeTotal(heroBet - previousBet);
+    handleStreetPot(bet)
+    if(showButton){
+      howManyBets--
+    }
   }
 }
 
-function delayAction(action, func, delay) {
+function delayAction(action, func, delay, seat) {
   setTimeout(function() {
+      hightlightActionBet(seat);
     func(action)
   }, delay)
+}
+
+function hightlightActionBet(seat){
+    document.getElementById(seat).style.visibility = 'visible';
+    setTimeout(function() {
+        document.getElementById(seat).style.visibility = 'hidden';
+    },800)
 }
 
 function delayFold(player, func, delay) {
@@ -413,9 +500,18 @@ function setDel() {
   delBetween = parseInt(document.getElementById('delay2').value * 1000)
 }
 
+var howManyBets = 0;
+
+function hightlightAction(seat){
+  document.getElementById(seat).style.visibility = 'visible';
+  setTimeout(function() {
+    document.getElementById(seat).style.visibility = 'hidden';
+  },1000)
+}
+
 function preflopBets() {
   var postflop = false
-  var actionSequence = actionSeq(postflop)
+  var actionSequence = actionSeq(postflop);
 
   var inputs = document.querySelectorAll('#player1Preflop, #player2Preflop, #player3Preflop')
   var inputsLen = 0
@@ -430,10 +526,13 @@ function preflopBets() {
       var objId = {
         a: 'leftVillainCards',
         aStack: 'leftSeatStack',
+        aInfo: 'leftSeatOval',
         b: 'rightVillainCards',
         bStack: 'rightSeatStack',
+          bInfo: 'rightSeatOval',
         c: 'heroCards',
-        cStack: 'bottomSeatStack'
+        cStack: 'bottomSeatStack',
+          cInfo:'bottomSeatOval'
       }
     } else if (this.buttonPosition == 2) {
       var a = document.getElementById('player2Preflop').value.split(';')
@@ -442,10 +541,13 @@ function preflopBets() {
       var objId = {
         a: 'rightVillainCards',
         aStack: 'rightSeatStack',
+          aInfo: 'rightSeatOval',
         b: 'heroCards',
         bStack: 'bottomSeatStack',
+          bInfo: 'bottomSeatOval',
         c: 'leftVillainCards',
-        cStack: 'leftSeatStack'
+        cStack: 'leftSeatStack',
+          cInfo: 'leftSeatOval'
       }
     } else if (this.buttonPosition == 3) {
       var a = document.getElementById('player3Preflop').value.split(';')
@@ -454,10 +556,13 @@ function preflopBets() {
       var objId = {
         a: 'heroCards',
         aStack: 'bottomSeatStack',
+          aInfo: 'bottomSeatOval',
         b: 'leftVillainCards',
         bStack: 'leftSeatStack',
+          bInfo: 'leftSeatOval',
         c: 'rightVillainCards',
-        cStack: 'rightSeatStack'
+        cStack: 'rightSeatStack',
+          cInfo: 'rightSeatOval'
       }
     }
 
@@ -469,22 +574,25 @@ function preflopBets() {
       if (a[i] == '-') {
         folded[0] = true
         setTimeout(function() {
-          foldDesc(objId.aStack)
+            hightlightAction(objId.aInfo)
+            foldDesc(objId.aStack)
         }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
+          hightlightAction(objId.aInfo)
           checkDesc(objId.aStack)
         }, del)
       }
       if (i < a.length && !folded[0] && a[i] != 'x') {
-        delayAction(a[i], actionSequence[0], del)
+           delayAction(a[i], actionSequence[0], del, objId.aInfo)
       }
       del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
+            hightlightAction(objId.bInfo)
           foldDesc(objId.bStack),
           clearSmallBlind()
         }, del)
@@ -492,11 +600,13 @@ function preflopBets() {
       }
       if (b[i] == 'x') {
         setTimeout(function() {
+            hightlightAction(objId.bInfo)
           checkDesc(objId.bStack)
         }, del)
       }
       if (i < b.length && !folded[1] && b[i] != 'x') {
-        delayAction(b[i], actionSequence[1], del)
+
+        delayAction(b[i], actionSequence[1], del, objId.bInfo)
         setTimeout(function() {
           clearSmallBlind()
         }, del)
@@ -505,18 +615,20 @@ function preflopBets() {
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
+            hightlightAction(objId.cInfo)
           foldDesc(objId.cStack)
         }, del)
         delayFold(objId.c, clearFoldedCars, del)
       }
       if (c[i] == 'x') {
         setTimeout(function() {
+            hightlightAction(objId.cInfo)
           checkDesc(objId.cStack)
         }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
-        delayAction(c[i], actionSequence[2], del)
-        delayAction(b[i], actionSequence[1], del)
+        delayAction(c[i], actionSequence[2], del, objId.cInfo);
+        // delayAction(b[i], actionSequence[1], del)
         setTimeout(function() {
           clearBigBlind()
         }, del)
@@ -551,10 +663,13 @@ function flopBets() {
       var objId = {
         a: 'rightVillainCards',
         aStack: 'rightSeatStack',
+          aInfo: 'rightSeatOval',
         b: 'heroCards',
         bStack: 'bottomSeatStack',
-        c: 'leftVillainCards',
-        cStack: 'leftSeatStack'
+          bInfo: 'bottomSeatOval',
+          c: 'leftVillainCards',
+        cStack: 'leftSeatStack',
+          cInfo: 'leftSeatOval',
       }
     } else if (this.buttonPosition == 2) {
       var a = document.getElementById('player3Flop').value.split(';')
@@ -563,10 +678,13 @@ function flopBets() {
       var objId = {
         a: 'heroCards',
         aStack: 'bottomSeatStack',
+          aInfo: 'bottomSeatOval',
         b: 'leftVillainCards',
         bStack: 'leftSeatStack',
+          bInfo: 'leftSeatOval',
         c: 'rightVillainCards',
-        cStack: 'rightSeatStack'
+        cStack: 'rightSeatStack',
+          cInfo: 'rightSeatOval',
       }
     } else if (this.buttonPosition == 3) {
       var a = document.getElementById('player1Flop').value.split(';')
@@ -575,10 +693,13 @@ function flopBets() {
       var objId = {
         a: 'leftVillainCards',
         aStack: 'leftSeatStack',
+          aInfo: 'leftSeatOval',
         b: 'rightVillainCards',
         bStack: 'rightSeatStack',
+          bInfo: 'leftSeatOval',
         c: 'heroCards',
-        cStack: 'bottomSeatStack'
+        cStack: 'bottomSeatStack',
+          cInfo: 'bottomSeatOval',
       }
     }
 
@@ -591,41 +712,46 @@ function flopBets() {
       if (a[i] == '-') {
         folded[0] = true
         setTimeout(function() {
+            hightlightAction(objId.aInfo)
           foldDesc(objId.aStack)
         }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
+            hightlightAction(objId.aInfo)
           checkDesc(objId.aStack)
         }, del)
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
 
-        delayAction(a[i], actionSequence[0], del)
+        delayAction(a[i], actionSequence[0], del, objId.aInfo)
       }
       del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
+            hightlightAction(objId.bInfo);
           foldDesc(objId.bStack)
         }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.bStack)
+            hightlightAction(objId.bInfo);
+            checkDesc(objId.bStack)
         }, del)
       }
 
       if (i < b.length && !folded[1] && b[i] != 'x') {
-        delayAction(b[i], actionSequence[1], del)
+        delayAction(b[i], actionSequence[1], del,objId.bInfo)
       }
       del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
+            hightlightAction(objId.cInfo);
           foldDesc(objId.cStack)
         }, del)
         delayFold(objId.c, clearFoldedCars, del)
@@ -633,11 +759,12 @@ function flopBets() {
       }
       if (c[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.cStack)
+            hightlightAction(objId.cInfo);
+            checkDesc(objId.cStack)
         }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
-        delayAction(c[i], actionSequence[2], del)
+        delayAction(c[i], actionSequence[2], del, objId.cInfo)
       }
       del += delBetween
 
@@ -669,10 +796,13 @@ function turnBets() {
       var objId = {
         a: 'rightVillainCards',
         aStack: 'rightSeatStack',
+          aInfo: 'rightSeatOval',
         b: 'heroCards',
         bStack: 'bottomSeatStack',
-        c: 'leftVillainCards',
-        cStack: 'leftSeatStack'
+          bInfo: 'bottomSeatOval',
+          c: 'leftVillainCards',
+        cStack: 'leftSeatStack',
+          cInfo: 'leftSeatOval',
       }
     } else if (this.buttonPosition == 2) {
       var a = document.getElementById('player3Turn').value.split(';')
@@ -681,10 +811,13 @@ function turnBets() {
       var objId = {
         a: 'heroCards',
         aStack: 'bottomSeatStack',
+          aInfo: 'bottomSeatOval',
         b: 'leftVillainCards',
         bStack: 'leftSeatStack',
+          bInfo: 'leftSeatOval',
         c: 'rightVillainCards',
-        cStack: 'rightSeatStack'
+        cStack: 'rightSeatStack',
+          cInfo: 'rightSeatOval'
       }
     } else if (this.buttonPosition == 3) {
       var a = document.getElementById('player1Turn').value.split(';')
@@ -693,10 +826,13 @@ function turnBets() {
       var objId = {
         a: 'leftVillainCards',
         aStack: 'leftSeatStack',
+          aInfo: 'leftSeatOval',
         b: 'rightVillainCards',
         bStack: 'rightSeatStack',
-        c: 'heroCards',
-        cStack: 'bottomSeatStack'
+          bInfo: 'rightSeatOval',
+          c: 'heroCards',
+        cStack: 'bottomSeatStack',
+          cInfo: 'bottomSeatOval'
       }
     }
 
@@ -709,41 +845,46 @@ function turnBets() {
       if (a[i] == '-') {
         folded[0] = true
         setTimeout(function() {
+            hightlightAction(objId.aInfo);
           foldDesc(objId.aStack)
         }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.aStack)
+            hightlightAction(objId.aInfo);
+            checkDesc(objId.aStack)
         }, del)
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
 
-        delayAction(a[i], actionSequence[0], del)
+        delayAction(a[i], actionSequence[0], del, objId.aInfo)
       }
       del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
+            hightlightAction(objId.bInfo);
           foldDesc(objId.bStack)
         }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.bStack)
+            hightlightAction(objId.bInfo);
+            checkDesc(objId.bStack)
         }, del)
       }
 
       if (i < b.length && !folded[1] && b[i] != 'x') {
-        delayAction(b[i], actionSequence[1], del)
+        delayAction(b[i], actionSequence[1], del, objId.bInfo)
       }
       del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
+            hightlightAction(objId.cInfo);
           foldDesc(objId.cStack)
         }, del)
         delayFold(objId.c, clearFoldedCars, del)
@@ -751,11 +892,12 @@ function turnBets() {
       }
       if (c[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.cStack)
+            hightlightAction(objId.cInfo);
+            checkDesc(objId.cStack)
         }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
-        delayAction(c[i], actionSequence[2], del)
+        delayAction(c[i], actionSequence[2], del, objId.cInfo)
       }
       del += delBetween
 
@@ -786,10 +928,13 @@ function riverBets() {
       var objId = {
         a: 'rightVillainCards',
         aStack: 'rightSeatStack',
+          aInfo: 'rightSeatOval',
         b: 'heroCards',
         bStack: 'bottomSeatStack',
+          bInfo: 'bottomSeatOval',
         c: 'leftVillainCards',
-        cStack: 'leftSeatStack'
+        cStack: 'leftSeatStack',
+          cInfo: 'leftSeatOval',
       }
     } else if (this.buttonPosition == 2) {
       var a = document.getElementById('player3River').value.split(';')
@@ -798,10 +943,13 @@ function riverBets() {
       var objId = {
         a: 'heroCards',
         aStack: 'bottomSeatStack',
+          aInfo: 'bottomSeatOval',
         b: 'leftVillainCards',
         bStack: 'leftSeatStack',
-        c: 'rightVillainCards',
-        cStack: 'rightSeatStack'
+          bInfo: 'leftSeatOval',
+          c: 'rightVillainCards',
+        cStack: 'rightSeatStack',
+        cInfo: 'rightSeatOval'
       }
     } else if (this.buttonPosition == 3) {
       var a = document.getElementById('player1River').value.split(';')
@@ -810,10 +958,13 @@ function riverBets() {
       var objId = {
         a: 'leftVillainCards',
         aStack: 'leftSeatStack',
+          aInfo: 'leftSeatOval',
         b: 'rightVillainCards',
         bStack: 'rightSeatStack',
-        c: 'heroCards',
-        cStack: 'bottomSeatStack'
+          bInfo: 'rightSeatOval',
+          c: 'heroCards',
+        cStack: 'bottomSeatStack',
+          cInfo: 'bottomSeatOval',
       }
     }
 
@@ -826,41 +977,46 @@ function riverBets() {
       if (a[i] == '-') {
         folded[0] = true
         setTimeout(function() {
+            hightlightAction(objId.aInfo);
           foldDesc(objId.aStack)
         }, del)
         delayFold(objId.a, clearFoldedCars, del)
       }
       if (a[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.aStack)
+            hightlightAction(objId.aInfo);
+            checkDesc(objId.aStack)
         }, del)
       }
 
       if (i < a.length && !folded[0] && a[i] != 'x') {
 
-        delayAction(a[i], actionSequence[0], del)
+        delayAction(a[i], actionSequence[0], del, objId.aInfo)
       }
       del += delBetween
       if (b[i] == '-') {
         folded[1] = true;
         setTimeout(function() {
+            hightlightAction(objId.bInfo);
           foldDesc(objId.bStack)
         }, del)
         delayFold(objId.b, clearFoldedCars, del)
       }
       if (b[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.bStack)
+            hightlightAction(objId.bInfo);
+            checkDesc(objId.bStack)
         }, del)
       }
 
       if (i < b.length && !folded[1] && b[i] != 'x') {
-        delayAction(b[i], actionSequence[1], del)
+        delayAction(b[i], actionSequence[1], del, objId.bInfo)
       }
       del += delBetween
       if (c[i] == '-') {
         folded[2] = true;
         setTimeout(function() {
+            hightlightAction(objId.cInfo);
           foldDesc(objId.cStack)
         }, del)
         delayFold(objId.c, clearFoldedCars, del)
@@ -868,11 +1024,12 @@ function riverBets() {
       }
       if (c[i] == 'x') {
         setTimeout(function() {
-          checkDesc(objId.cStack)
+            hightlightAction(objId.cInfo);
+            checkDesc(objId.cStack)
         }, del)
       }
       if (i < c.length && !folded[2] && c[i] != 'x') {
-        delayAction(c[i], actionSequence[2], del)
+        delayAction(c[i], actionSequence[2], del, objId.cInfo)
       }
       del += delBetween
 
