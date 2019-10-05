@@ -298,9 +298,9 @@ function potSizeTotal(bet) {
 
 }
 
-function handleStreetPot(streetBet){
+function handleStreetPot(streetBet, previousBet){
   var pot = Number(document.getElementById("street").innerHTML, 10);
-  document.getElementById("street").innerHTML = pot + parseInt(streetBet)
+  document.getElementById("street").innerHTML = pot + parseInt(streetBet) - parseInt(previousBet)
 }
 
 function clearBets() {
@@ -350,7 +350,7 @@ function villainBet1(bet, showButton) {
     document.getElementById("villain1BetSize").innerHTML = villainBet;
     document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
     potSizeTotal(villainBet - previousBet);
-    handleStreetPot(bet)
+    handleStreetPot(bet, previousBet)
     if(showButton){
       howManyBets = 0
     }
@@ -380,7 +380,7 @@ function villainBet2(bet, showButton) {
     document.getElementById("villain2BetSize").innerHTML = villainBet;
     document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
     potSizeTotal(villainBet - previousBet);
-    handleStreetPot(bet)
+    handleStreetPot(bet, previousBet)
     if(showButton){
       howManyBets = 0
     }
@@ -398,7 +398,6 @@ function heroBet(bet, showButton) {
   var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
   if (heroBet && heroBet != '-') {
     if(heroBet > maxBet && !showButton){
-      // console.log(howManyBets)
       chipsHandler(howManyBets, 'chip3raise');
       document.getElementById("chip3raise").style.visibility = 'visible'
       howManyBets++
@@ -410,7 +409,7 @@ function heroBet(bet, showButton) {
     document.getElementById("heroBetSize").innerHTML = heroBet;
     document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet) + previousBet;
     potSizeTotal(heroBet - previousBet);
-    handleStreetPot(bet)
+    handleStreetPot(bet, previousBet)
     if(showButton){
       howManyBets--
     }
