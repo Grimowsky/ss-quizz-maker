@@ -299,8 +299,10 @@ function potSizeTotal(bet) {
 }
 
 function handleStreetPot(streetBet, previousBet){
-  var pot = Number(document.getElementById("street").innerHTML, 10);
-  document.getElementById("street").innerHTML = pot + parseInt(streetBet) - parseInt(previousBet)
+  //var pot = Number(document.getElementById("street").innerHTML, 10);
+    var pot = Number(document.getElementById("totalStack").innerHTML, 10);
+  document.getElementById("street").innerHTML = pot;
+    //pot + parseInt(streetBet) - parseInt(previousBet)
 }
 
 function clearBets() {
@@ -312,7 +314,7 @@ function clearBets() {
   betClear.forEach(bet => {
     bet.innerHTML = ''
   });
-  document.getElementById('street').innerText = '0'
+  //document.getElementById('street').innerText = '0'
   howManyBets = 0
 }
 
@@ -350,7 +352,7 @@ function villainBet1(bet, showButton) {
     document.getElementById("villain1BetSize").innerHTML = villainBet;
     document.getElementById("leftSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
     potSizeTotal(villainBet - previousBet);
-    handleStreetPot(bet, previousBet)
+
     if(showButton){
       howManyBets = 0
     }
@@ -367,7 +369,7 @@ function villainBet2(bet, showButton) {
   var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
   if (villainBet && villainBet != '-') {
 
-    if(villainBet > maxBet && !showButton){
+    if(villainBet > maxBet && !showButton && document.getElementById("rightSeatStack")){
 
       chipsHandler(howManyBets, 'chip2raise');
       document.getElementById("chip2raise").style.visibility = 'visible'
@@ -380,7 +382,7 @@ function villainBet2(bet, showButton) {
     document.getElementById("villain2BetSize").innerHTML = villainBet;
     document.getElementById("rightSeatStack").innerHTML = parseInt(stack) - parseInt(villainBet) + previousBet;
     potSizeTotal(villainBet - previousBet);
-    handleStreetPot(bet, previousBet)
+
     if(showButton){
       howManyBets = 0
     }
@@ -409,7 +411,7 @@ function heroBet(bet, showButton) {
     document.getElementById("heroBetSize").innerHTML = heroBet;
     document.getElementById("bottomSeatStack").innerHTML = parseInt(stack) - parseInt(heroBet) + previousBet;
     potSizeTotal(heroBet - previousBet);
-    handleStreetPot(bet, previousBet)
+
     if(showButton){
       howManyBets--
     }
@@ -424,10 +426,12 @@ function delayAction(action, func, delay, seat) {
 }
 
 function hightlightActionBet(seat){
-    document.getElementById(seat).style.visibility = 'visible';
-    setTimeout(function() {
-        document.getElementById(seat).style.visibility = 'hidden';
-    },800)
+    if(document.getElementById(seat.split('Oval')[0]).style.visibility !== 'hidden') {
+        document.getElementById(seat).style.visibility = 'visible';
+        setTimeout(function () {
+            document.getElementById(seat).style.visibility = 'hidden';
+        }, 800)
+    }
 }
 
 function delayFold(player, func, delay) {
@@ -502,10 +506,12 @@ function setDel() {
 var howManyBets = 0;
 
 function hightlightAction(seat){
-  document.getElementById(seat).style.visibility = 'visible';
-  setTimeout(function() {
-    document.getElementById(seat).style.visibility = 'hidden';
-  },1000)
+    if(document.getElementById(seat.split('Oval')[0]).style.visibility !== 'hidden') {
+        document.getElementById(seat).style.visibility = 'visible';
+        setTimeout(function () {
+            document.getElementById(seat).style.visibility = 'hidden';
+        }, 1000)
+    }
 }
 
 function preflopBets() {
@@ -641,11 +647,13 @@ function preflopBets() {
     clearSmallBlind()
     clearBets()
     setFlop()
+      handleStreetPot()
   }, del)
 
 }
 
 function flopBets() {
+
   var postflop = true
   var actionSequence = actionSeq(postflop)
   var inputs = document.querySelectorAll('#player1Flop, #player2Flop, #player3Flop')
@@ -695,7 +703,7 @@ function flopBets() {
           aInfo: 'leftSeatOval',
         b: 'rightVillainCards',
         bStack: 'rightSeatStack',
-          bInfo: 'leftSeatOval',
+          bInfo: 'rightSeatOval',
         c: 'heroCards',
         cStack: 'bottomSeatStack',
           cInfo: 'bottomSeatOval',
@@ -773,6 +781,7 @@ function flopBets() {
   setTimeout(function() {
     clearBets()
     setTurn()
+      handleStreetPot()
   }, del)
 
 }
@@ -903,8 +912,10 @@ function turnBets() {
     }
   }
   setTimeout(function() {
+
     clearBets()
     setRiver()
+      handleStreetPot()
   }, del)
 
 }
@@ -1036,12 +1047,13 @@ function riverBets() {
   }
   setTimeout(function() {
     clearBets()
+      handleStreetPot()
   }, del)
 
 }
 
 function restartHand() {
-
+    document.getElementById('street').innerHTML = '0';
   if (document.getElementById('leftSeat').style.visibility != 'hidden') {
     var x = document.getElementById('leftVillainCards');
     if (x.style.visibility === 'hidden') {
