@@ -439,7 +439,13 @@ function delayAction(action, func, delay, seat) {
 }
 
 function hightlightActionBet(seat){
-    if(document.getElementById(seat.split('Oval')[0]).style.visibility !== 'hidden') {
+    let whiteListOfHighlight = ['leftVillainCards', 'rightVillainCards'];
+    let leftOrRightSeat = seat.split('Seat')[0] + 'VillainCards';
+    let seatToBeHighlighted = whiteListOfHighlight.indexOf(leftOrRightSeat) > -1 ?
+        whiteListOfHighlight[whiteListOfHighlight.indexOf(leftOrRightSeat)] : 'heroCards';
+
+    if(document.getElementById(seat.split('Oval')[0]).style.visibility !== 'hidden'
+        && document.getElementById(seatToBeHighlighted).style.visibility !== 'hidden') {
         document.getElementById(seat).style.visibility = 'visible';
         setTimeout(function () {
             document.getElementById(seat).style.visibility = 'hidden';
@@ -519,7 +525,13 @@ function setDel() {
 var howManyBets = 0;
 
 function hightlightAction(seat){
-    if(document.getElementById(seat.split('Oval')[0]).style.visibility !== 'hidden') {
+    let whiteListOfHighlight = ['leftVillainCards', 'rightVillainCards'];
+    let leftOrRightSeat = seat.split('Seat')[0] + 'VillainCards';
+    let seatToBeHighlighted = whiteListOfHighlight.indexOf(leftOrRightSeat) > -1 ?
+        whiteListOfHighlight[whiteListOfHighlight.indexOf(leftOrRightSeat)] : 'heroCards';
+
+    if(document.getElementById(seat.split('Oval')[0]).style.visibility !== 'hidden'
+        && document.getElementById(seatToBeHighlighted).style.visibility !== 'hidden'){
         document.getElementById(seat).style.visibility = 'visible';
         setTimeout(function () {
             document.getElementById(seat).style.visibility = 'hidden';

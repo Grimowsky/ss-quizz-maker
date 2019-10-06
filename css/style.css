@@ -49,6 +49,14 @@
 
 }
 
+
+#streetChips{
+    width: 25px;
+    height: 40px;
+    position: absolute;
+    top: -25px;
+    left: -25px;
+}
 #preBetPot{
     color: white;
     position: absolute;
