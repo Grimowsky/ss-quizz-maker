@@ -320,11 +320,11 @@ function clearBets() {
 
 function chipsHandler(howManyBets, playerChip){
   if(howManyBets === 0){
-    document.getElementById(playerChip).src = "assets/chips/red-2.png"
+    document.getElementById(playerChip).src = "assets/chips/red-1.png"
   } else if (howManyBets === 1 ){
-    document.getElementById(playerChip).src = "assets/chips/red-5.png"
+    document.getElementById(playerChip).src = "assets/chips/red-2.png"
   } else if (howManyBets > 1){
-    document.getElementById(playerChip).src = "assets/chips/mix.png"
+    document.getElementById(playerChip).src = "assets/chips/red-5.png"
   }
 }
 
@@ -333,12 +333,19 @@ function villainBet1(bet, showButton) {
   var previousBet = Number(document.getElementById("villain1BetSize").innerHTML);
   var previousVillainBet = Number(document.getElementById("heroBetSize").innerHTML);
   var stack = document.getElementById("leftSeatStack").innerHTML;
-  var previousVillain1Bet = Number(document.getElementById("heroBetSize").innerHTML);
-  var previousVillain2Bet = Number(document.getElementById("villain2BetSize").innerHTML);
-  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
+  var previousVillain1Bet = Number(document.getElementById("heroBetSize").innerHTML, 10);
+  var previousVillain2Bet = Number(document.getElementById("villain2BetSize").innerHTML, 10);
+  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet);
+
+
   if (villainBet && villainBet != '-') {
 
     if(villainBet > maxBet && !showButton){
+        // console.log('VillainBet1 triggered')
+        // console.log(maxBet);
+        // console.log('bets: ', howManyBets);
+        // console.log('previousVillain1Bet: ', previousVillain1Bet);
+        // console.log('previousVillain2Bet: ', previousVillain2Bet);
             chipsHandler(howManyBets, 'chip1raise');
             document.getElementById("chip1raise").style.visibility = 'visible'
 
@@ -364,13 +371,19 @@ function villainBet2(bet, showButton) {
   var villainBet = bet
   var previousBet = Number(document.getElementById("villain2BetSize").innerHTML);
   var stack = document.getElementById("rightSeatStack").innerHTML;
-  var previousVillain1Bet = Number(document.getElementById("villain1BetSize").innerHTML);
-  var previousVillain2Bet = Number(document.getElementById("villain2BetSize").innerHTML);
-  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
+  var previousVillain1Bet = Number(document.getElementById("villain1BetSize").innerHTML, 10);
+  var previousVillain2Bet = Number(document.getElementById("heroBetSize").innerHTML, 10);
+  var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet);
+
+
   if (villainBet && villainBet != '-') {
 
-    if(villainBet > maxBet && !showButton && document.getElementById("rightSeatStack")){
-
+    if(villainBet > maxBet && !showButton){
+        // console.log('VillainBet2 triggered')
+        // console.log(maxBet);
+        // console.log('bets: ', howManyBets);
+        // console.log('previousVillain1Bet: ', previousVillain1Bet);
+        // console.log('previousVillain2Bet: ', previousVillain2Bet);
       chipsHandler(howManyBets, 'chip2raise');
       document.getElementById("chip2raise").style.visibility = 'visible'
       howManyBets++
