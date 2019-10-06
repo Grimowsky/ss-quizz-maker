@@ -232,8 +232,8 @@ img {
 }
 
 #chip1, #chip2, #chip3{
-    width: 25px;
-    height: 25px;
+    width: auto;
+    height: auto;
 }
 
 #leftSeatOval {

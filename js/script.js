@@ -319,13 +319,21 @@ function clearBets() {
 }
 
 function chipsHandler(howManyBets, playerChip){
+
   if(howManyBets === 0){
-    document.getElementById(playerChip).src = "assets/chips/red-1.png"
+    document.getElementById(playerChip).src = "assets/chips/blue-1.png"
   } else if (howManyBets === 1 ){
-    document.getElementById(playerChip).src = "assets/chips/red-2.png"
+    document.getElementById(playerChip).src = "assets/chips/blue-2.png"
   } else if (howManyBets > 1){
-    document.getElementById(playerChip).src = "assets/chips/red-5.png"
+    document.getElementById(playerChip).src = "assets/chips/blue-5.png"
   }
+}
+
+function handleCallAction(){
+   let chips =  Array.from(document.querySelectorAll('#chip1, #chip2, #chip3'))
+   let maxChip = chips.map(chip => Number(chip.src.split('/').reverse()[0].split('-').reverse()[0].split('.')[0]));
+   let maxBet = (Math.max(...maxChip));
+    return 'blue-' + maxBet + '.png'
 }
 
 function villainBet1(bet, showButton) {
@@ -346,12 +354,11 @@ function villainBet1(bet, showButton) {
         // console.log('bets: ', howManyBets);
         // console.log('previousVillain1Bet: ', previousVillain1Bet);
         // console.log('previousVillain2Bet: ', previousVillain2Bet);
-            chipsHandler(howManyBets, 'chip1raise');
-            document.getElementById("chip1raise").style.visibility = 'visible'
-
+            chipsHandler(howManyBets, 'chip1');
       howManyBets++
-    } else{
-      document.getElementById("chip1raise").style.visibility = 'hidden'
+    }else{
+        let chipName = handleCallAction()
+        document.getElementById("chip1").src = 'assets/chips/'+chipName
     }
 
     document.getElementById("villainBet1").style.visibility = 'visible'
@@ -378,17 +385,18 @@ function villainBet2(bet, showButton) {
 
   if (villainBet && villainBet != '-') {
 
-    if(villainBet > maxBet && !showButton){
+    if(villainBet > maxBet && !showButton) {
         // console.log('VillainBet2 triggered')
         // console.log(maxBet);
         // console.log('bets: ', howManyBets);
         // console.log('previousVillain1Bet: ', previousVillain1Bet);
         // console.log('previousVillain2Bet: ', previousVillain2Bet);
-      chipsHandler(howManyBets, 'chip2raise');
-      document.getElementById("chip2raise").style.visibility = 'visible'
-      howManyBets++
+        chipsHandler(howManyBets, 'chip2');
+        //document.getElementById("chip2raise").style.visibility = 'visible'
+        howManyBets++
     } else{
-      document.getElementById("chip2raise").style.visibility = 'hidden'
+        let chipName = handleCallAction()
+        document.getElementById("chip2").src = 'assets/chips/'+chipName
     }
     document.getElementById("villainBet2").style.visibility = 'visible'
     document.getElementById("chip2").style.visibility = 'visible'
@@ -413,11 +421,12 @@ function heroBet(bet, showButton) {
   var maxBet = Math.max(previousVillain1Bet, previousVillain2Bet)
   if (heroBet && heroBet != '-') {
     if(heroBet > maxBet && !showButton){
-      chipsHandler(howManyBets, 'chip3raise');
-      document.getElementById("chip3raise").style.visibility = 'visible'
+      chipsHandler(howManyBets, 'chip3');
       howManyBets++
-    }else{
-      document.getElementById("chip3raise").style.visibility = 'hidden'
+    }
+    else{
+        let chipName = handleCallAction();
+        document.getElementById("chip3").src = 'assets/chips/' + chipName
     }
     document.getElementById("chip3").style.visibility = 'visible'
     document.getElementById("heroBet").style.visibility = 'visible'
@@ -668,6 +677,7 @@ function preflopBets() {
     }
   }
   setTimeout(function() {
+      resetChips()
     clearBigBlind()
     clearSmallBlind()
     clearBets()
@@ -804,6 +814,7 @@ function flopBets() {
   }
 
   setTimeout(function() {
+      resetChips()
     clearBets()
     setTurn()
       handleStreetPot()
@@ -937,7 +948,7 @@ function turnBets() {
     }
   }
   setTimeout(function() {
-
+      resetChips()
     clearBets()
     setRiver()
       handleStreetPot()
@@ -1071,13 +1082,22 @@ function riverBets() {
     }
   }
   setTimeout(function() {
+      resetChips()
     clearBets()
       handleStreetPot()
   }, del)
 
 }
 
+function resetChips() {
+    document.getElementById('chip1').src = 'assets/chips/blue-1.png';
+    document.getElementById('chip2').src = 'assets/chips/blue-1.png';
+    document.getElementById('chip3').src = 'assets/chips/blue-1.png';
+}
+
 function restartHand() {
+    resetChips()
+
     document.getElementById('street').innerHTML = '0';
   if (document.getElementById('leftSeat').style.visibility != 'hidden') {
     var x = document.getElementById('leftVillainCards');
