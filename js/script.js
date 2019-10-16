@@ -324,8 +324,14 @@ function chipsHandler(howManyBets, playerChip){
     document.getElementById(playerChip).src = "assets/chips/blue-1.png"
   } else if (howManyBets === 1 ){
     document.getElementById(playerChip).src = "assets/chips/blue-2.png"
-  } else if (howManyBets > 1){
-    document.getElementById(playerChip).src = "assets/chips/blue-5.png"
+  } else if (howManyBets === 2){
+    document.getElementById(playerChip).src = "assets/chips/blue-3.png"
+  } else if (howManyBets === 3){
+      document.getElementById(playerChip).src = "assets/chips/blue-4.png"
+  }else if (howManyBets === 4){
+      document.getElementById(playerChip).src = "assets/chips/blue-5.png"
+  } else {
+      document.getElementById(playerChip).src = "assets/chips/blue-5.png"
   }
 }
 
